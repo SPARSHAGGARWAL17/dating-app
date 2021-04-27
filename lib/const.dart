@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
-// const Color kPrimaryColor = Color(0xffFFB6C1);
+const Color kPrimaryColor = Color(0xffFFB6C1);
 const Color kGreyColor = Color(0xffD9DDE2);
+const Color kBabyPinkColor = Color(0xffFFB6C1);
+
+Size getDeviceSize(BuildContext context) {
+  return MediaQuery.of(context).size;
+}
+
 TextStyle buildTextStyle({
   String family = 'SFProDisplay',
   double size = 15,
@@ -13,5 +19,13 @@ TextStyle buildTextStyle({
     fontSize: size,
     fontWeight: weight,
     color: color,
+  );
+}
+
+PageRoute createRoute(Widget pageWidget) {
+  return MaterialPageRoute(
+    builder: (context) {
+      return pageWidget;
+    },
   );
 }
