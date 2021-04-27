@@ -2,6 +2,7 @@ import '../../export.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpVerifyPage extends StatefulWidget {
+  static const Route = '/verify-otp';
   @override
   _OtpVerifyPageState createState() => _OtpVerifyPageState();
 }
@@ -11,8 +12,11 @@ class _OtpVerifyPageState extends State<OtpVerifyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(
-          Icons.arrow_back_ios,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
           color: Colors.black,
         ),
         elevation: 0,
@@ -61,30 +65,13 @@ class _OtpVerifyPageState extends State<OtpVerifyPage> {
                 borderWidth: 1,
                 inactiveColor: kGreyColor,
                 activeFillColor: kGreyColor,
-                selectedColor: kGreyColor,
+                selectedColor: kPrimaryColor,
                 activeColor: Colors.black,
               ),
               animationDuration: Duration(milliseconds: 300),
-              backgroundColor: Colors.transparent,
               enableActiveFill: false,
+              onChanged: (value) {},
               keyboardType: TextInputType.number,
-              //errorAnimationController: errorController,
-              //controller: textEditingController,
-              onCompleted: (v) {
-                //print("Completed");
-              },
-              onChanged: (value) {
-                // print(value);
-                setState(() {
-                  //currentText = value;
-                });
-              },
-              // beforeTextPaste: (text) {
-              //   print("Allowing to paste $text");
-              //   //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-              //   //but you can show anything you want here, like your pop up saying wrong paste format or etc
-              //   return true;
-              // },
             ),
             SizedBox(
               height: 30,

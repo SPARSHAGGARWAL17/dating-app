@@ -1,6 +1,7 @@
 import '../../export.dart';
 
 class NewPasswordPage extends StatefulWidget {
+  static const Route = '/new-password';
   @override
   _NewPasswordPageState createState() => _NewPasswordPageState();
 }
@@ -10,8 +11,11 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(
-          Icons.arrow_back_ios,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
           color: Colors.black,
         ),
         title: Align(

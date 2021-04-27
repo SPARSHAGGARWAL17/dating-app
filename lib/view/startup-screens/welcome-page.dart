@@ -23,9 +23,7 @@ class WelcomePage extends StatelessWidget {
                     style: buildTextStyle(color: Colors.white),
                   ),
                   onPressed: () {
-                    Navigator.of(context).push(
-                      createRoute(LoginEmailPage()),
-                    );
+                    Navigator.of(context).pushNamed(LoginEmailPage.Route);
                   },
                 ),
               )

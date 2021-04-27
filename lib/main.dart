@@ -1,5 +1,5 @@
 import 'package:bewp_life/routes.dart';
-import 'package:bewp_life/view/startup-screens/onboard.dart';
+import 'package:bewp_life/view/startup-screens/welcome-page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -7,7 +7,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.pink,
       ),
       routes: routes,
-      home: WelcomePage(),
+      initialRoute: WelcomePage.Route,
     );
   }
 }

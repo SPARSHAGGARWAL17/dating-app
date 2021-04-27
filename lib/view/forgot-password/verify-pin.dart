@@ -29,8 +29,11 @@ class _VerifyPinPageState extends State<VerifyPinPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: Icon(
-          Icons.arrow_back_ios,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
           color: Colors.black,
         ),
         centerTitle: false,

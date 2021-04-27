@@ -1,5 +1,6 @@
 import 'package:bewp_life/const.dart';
 import 'package:bewp_life/view/forgot-password/forgot-password.dart';
+import 'package:bewp_life/view/startup-screens/registerApp.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -198,7 +199,9 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                           ],
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(RegisterApp.Route);
+                          },
                           child: Text(
                             'Newbie? Create Account',
                             style: buildTextStyle(),
