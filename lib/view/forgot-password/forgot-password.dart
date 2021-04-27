@@ -1,4 +1,5 @@
 import 'package:bewp_life/const.dart';
+import 'package:bewp_life/view/forgot-password/verify-pin.dart';
 import 'package:bewp_life/view/startup-screens/login-email.dart';
 import 'package:bewp_life/view/startup-screens/otp-verify.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +101,8 @@ class ForgotPasswordPage extends StatelessWidget {
                       onPressed: () {
                         bool validated = formKey.currentState!.validate();
                         if (validated) {
-                          Navigator.of(context).pushNamed(OtpVerifyPage.Route);
+                          Navigator.of(context).pushNamed(VerifyPinPage.Route,
+                              arguments: numberController.text);
                         }
                       },
                     ),

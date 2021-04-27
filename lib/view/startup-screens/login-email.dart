@@ -2,7 +2,6 @@ import 'package:bewp_life/const.dart';
 import 'package:bewp_life/view/forgot-password/forgot-password.dart';
 import 'package:bewp_life/view/startup-screens/registerApp.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginEmailPage extends StatefulWidget {
   static const Route = '/login';

@@ -132,6 +132,7 @@ class _RegisterAppState extends State<RegisterApp> {
                       ),
                     ),
                     TextFormField(
+                      obscureText: true,
                       controller: passwordController,
                       validator: validator,
                       decoration: InputDecoration(
@@ -144,6 +145,13 @@ class _RegisterAppState extends State<RegisterApp> {
                       ),
                     ),
                     TextFormField(
+                      obscureText: true,
+                      validator: (value) {
+                        if (passwordController.text != value) {
+                          return 'Password didn\'t match';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                           labelText: 'Confirm Password',
                           enabledBorder: UnderlineInputBorder(
@@ -170,7 +178,7 @@ class _RegisterAppState extends State<RegisterApp> {
                         height: 45,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          color: kGreyColor,
+                          color: kPrimaryColor,
                         ),
                         child: Center(
                           child: Text(

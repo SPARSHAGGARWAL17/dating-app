@@ -10,6 +10,7 @@ class OtpVerifyPage extends StatefulWidget {
 class _OtpVerifyPageState extends State<OtpVerifyPage> {
   @override
   Widget build(BuildContext context) {
+    var number = ModalRoute.of(context)!.settings.arguments;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -41,12 +42,15 @@ class _OtpVerifyPageState extends State<OtpVerifyPage> {
                       textAlign: TextAlign.left,
                       style: buildTextStyle(weight: FontWeight.w900, size: 25)),
                 ),
-                Text('+91-4353234575',
-                    textAlign: TextAlign.left,
-                    style: buildTextStyle(
-                        weight: FontWeight.w900,
-                        size: 25,
-                        color: kPrimaryColor)),
+                Text(
+                  '+91-$number',
+                  textAlign: TextAlign.left,
+                  style: buildTextStyle(
+                    weight: FontWeight.w900,
+                    size: 25,
+                    color: kPrimaryColor,
+                  ),
+                ),
               ],
             ),
             SizedBox(

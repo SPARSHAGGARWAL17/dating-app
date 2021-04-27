@@ -1,3 +1,5 @@
+import 'package:bewp_life/view/startup-screens/otp-verify.dart';
+
 import '../../export.dart';
 
 class NumberVerifyPage extends StatefulWidget {
@@ -40,6 +42,9 @@ class _NumberVerifyPageState extends State<NumberVerifyPage> {
             Form(
               key: formKey,
               child: TextFormField(
+                onChanged: (v) {
+                  setState(() {});
+                },
                 controller: numberController,
                 keyboardType: TextInputType.number,
                 validator: (value) {
@@ -77,14 +82,19 @@ class _NumberVerifyPageState extends State<NumberVerifyPage> {
             ),
             TextButton(
               onPressed: () {
-                if (formKey.currentState!.validate()) {}
+                if (formKey.currentState!.validate()) {
+                  Navigator.of(context).pushNamed(OtpVerifyPage.Route,
+                      arguments: numberController.text);
+                }
               },
               child: Container(
                 width: double.maxFinite,
                 height: 45,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: kGreyColor,
+                  color: numberController.text.length == 10
+                      ? kPrimaryColor
+                      : kGreyColor,
                 ),
                 child: Center(
                   child: Text(

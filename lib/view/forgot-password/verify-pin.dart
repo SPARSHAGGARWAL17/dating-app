@@ -25,7 +25,14 @@ class _VerifyPinPageState extends State<VerifyPinPage> {
   }
 
   @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var number = ModalRoute.of(context)!.settings.arguments;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -78,7 +85,7 @@ class _VerifyPinPageState extends State<VerifyPinPage> {
                       style: buildTextStyle(),
                     ),
                     TextSpan(
-                      text: '+91-999999999',
+                      text: '+91-$number',
                       style: buildTextStyle(
                         color: Color(0xff4718AD),
                       ),
