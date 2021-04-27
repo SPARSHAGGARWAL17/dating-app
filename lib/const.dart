@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color kPrimaryColor = Color(0xffFFB6C1);
+// const Color kPrimaryColor = Color(0xffFFB6C1);
 const Color kGreyColor = Color(0xffD9DDE2);
 TextStyle buildTextStyle({
   String family = 'SFProDisplay',
