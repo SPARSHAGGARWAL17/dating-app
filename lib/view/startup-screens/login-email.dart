@@ -2,6 +2,7 @@ import 'package:bewp_life/const.dart';
 import 'package:bewp_life/view/forgot-password/forgot-password.dart';
 import 'package:bewp_life/view/startup-screens/registerApp.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class LoginEmailPage extends StatefulWidget {
   static const Route = '/login';
@@ -78,9 +79,9 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                 ),
               ),
               Container(
-                height: size.height * 0.6,
+                height: size.height * 0.7,
                 width: double.infinity,
-                padding: EdgeInsets.all((25)),
+                padding: EdgeInsets.all((16)),
                 margin: EdgeInsets.only(top: size.height * 0.3),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -91,7 +92,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                 ),
                 child: SingleChildScrollView(
                   child: Container(
-                    height: size.height * 0.65,
+                    height: size.height * 0.62,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -181,6 +182,9 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                           ),
                           onPressed: () {},
                         ),
+                        SizedBox(
+                          height: 8,
+                        ),
                         Text(
                           'Or Log In With',
                           style: buildTextStyle(
@@ -206,6 +210,9 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                             style: buildTextStyle(),
                           ),
                         ),
+                        // SizedBox(
+                        //   height: 1,
+                        // )
                       ],
                     ),
                   ),
@@ -222,6 +229,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
     return InkWell(
       onTap: onPressed,
       child: Container(
+        padding: EdgeInsets.all(8),
         height: 50,
         width: 50,
         decoration: BoxDecoration(
@@ -233,7 +241,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
         child: CircleAvatar(
           maxRadius: 20,
           backgroundColor: Colors.white,
-          child: Image.asset('assets/images/$imageName.png'),
+          child: SvgPicture.asset('assets/svg/$imageName.svg'),
         ),
       ),
     );
