@@ -26,11 +26,15 @@ class _RegisterAppState extends State<RegisterApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 30,
         leading: IconButton(
+          padding: EdgeInsets.all(10),
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.of(context).pop();
           },
+
+          //constraints: BoxConstraints(minHeight: 10),
           color: Colors.black,
         ),
         elevation: 0,
@@ -40,6 +44,7 @@ class _RegisterAppState extends State<RegisterApp> {
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Container(
               height: 800,
               child: Form(

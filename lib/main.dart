@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:bewp_life/routes.dart';
 import 'package:bewp_life/view/startup-screens/welcome-page.dart';
 import 'package:flutter/material.dart';
