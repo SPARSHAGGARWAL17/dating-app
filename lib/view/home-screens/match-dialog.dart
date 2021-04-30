@@ -1,6 +1,7 @@
 import '../../export.dart';
 
 class MatchDialogPage extends StatefulWidget {
+  static const Route = '/user-matched-page';
   @override
   _MatchDialogPageState createState() => _MatchDialogPageState();
 }
@@ -44,7 +45,9 @@ class _MatchDialogPageState extends State<MatchDialogPage> {
                         topLeft: Radius.circular(15),
                         topRight: Radius.circular(15)),
                     child: Image(
-                      image: AssetImage('assets/images/dogs/dog5.jpeg'),//TODO add matched Dog Profile Image
+                      image: AssetImage(
+                        'assets/images/dogs/dog5.jpeg',
+                      ), //TODO add matched Dog Profile Image
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -63,33 +66,52 @@ class _MatchDialogPageState extends State<MatchDialogPage> {
                     color: Colors.green,
                     boxShadow: [
                       BoxShadow(
-                          offset: Offset(15, 20),
-                          color: Colors.black26,
-                          blurRadius: 3,
-                          spreadRadius: 3)
+                        offset: Offset(15, 20),
+                        color: Colors.black26,
+                        blurRadius: 3,
+                        spreadRadius: 3,
+                      )
                     ],
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(15),
-                        bottomRight: Radius.circular(15),
-                        topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15)),
+                      bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15),
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                    ),
                     child: Image(
-                      image: AssetImage('assets/images/dogs/dog4.jpeg'),//TODO add matched Dog Profile Image
+                      image: AssetImage(
+                        'assets/images/dogs/dog4.jpeg',
+                      ), //TODO add matched Dog Profile Image
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
               ),
-              buildPositionedHearts(10, 380, 40, 270),
-              buildPositionedHearts(350, 50, 69, 250),
-              buildPositionedHearts(400, 5, 300, 28),
-              buildPositionedHearts(100, 270, 230, 60),
-              buildPositionedHearts(195, 195, 146, 166),
+              buildPositionedHearts(
+                380,
+                40,
+              ),
+              buildPositionedHearts(
+                50,
+                69,
+              ),
+              buildPositionedHearts(
+                5,
+                300,
+              ),
+              buildPositionedHearts(
+                270,
+                230,
+              ),
+              buildPositionedHearts(
+                195,
+                146,
+              ),
             ]),
             Container(
-              height: MediaQuery.of(context).size.height * 0.359999,
+              height: MediaQuery.of(context).size.height * 0.3,
               width: MediaQuery.of(context).size.width,
               color: Colors.white,
               child: Column(
@@ -100,27 +122,36 @@ class _MatchDialogPageState extends State<MatchDialogPage> {
                     style: buildTextStyle(size: 52, weight: FontWeight.w900),
                   ),
                   buildButton(
-                      context,
-                      kPrimaryColor,
-                      Center(
-                          child: Text(
+                    context: context,
+                    onPressed: () {},
+                    color: kPrimaryColor,
+                    child: Center(
+                      child: Text(
                         'Send a message',
                         style: buildTextStyle(
-                            size: 16,
-                            weight: FontWeight.bold,
-                            color: Colors.white),
-                      ))),
+                          size: 16,
+                          weight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
                   buildButton(
-                      context,
-                      Colors.white,
-                      Center(
-                          child: Text(
+                    context: context,
+                    color: Colors.white,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Center(
+                      child: Text(
                         'Keep Swiping',
                         style: buildTextStyle(
                             size: 15,
                             weight: FontWeight.bold,
                             color: Colors.black),
-                      ))),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             )
@@ -130,10 +161,15 @@ class _MatchDialogPageState extends State<MatchDialogPage> {
     );
   }
 
-  Widget buildButton(BuildContext context, Color color, Widget child) {
+  Widget buildButton({
+    required BuildContext context,
+    required Color color,
+    required Widget child,
+    required Function() onPressed,
+  }) {
     return InkWell(
-      onTap: (){},//TODO Add Button Functionality accordingly
-          child: Padding(
+      onTap: onPressed, //TODO Add Button Functionality accordingly
+      child: Padding(
         padding: const EdgeInsets.all(10),
         child: Container(
           height: MediaQuery.of(context).size.height * 0.07,
@@ -155,14 +191,13 @@ class _MatchDialogPageState extends State<MatchDialogPage> {
     );
   }
 
-  Positioned buildPositionedHearts(
-      double bottom, double top, double right, double left) {
+  Positioned buildPositionedHearts(double top, double right) {
     return Positioned(
-      bottom: bottom,
       right: right,
-      left: left,
       top: top,
       child: Container(
+        height: 35,
+        width: 35,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
           color: Colors.white,

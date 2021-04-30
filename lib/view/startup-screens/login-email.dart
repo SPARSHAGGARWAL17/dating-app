@@ -1,5 +1,6 @@
 import 'package:bewp_life/const.dart';
 import 'package:bewp_life/view/forgot-password/forgot-password.dart';
+import 'package:bewp_life/view/home-screens/home-page.dart';
 import 'package:bewp_life/view/startup-screens/registerApp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -90,10 +91,10 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                     topRight: Radius.circular(20),
                   ),
                 ),
-                child: SingleChildScrollView(
-                  physics: ClampingScrollPhysics(),
-                  child: Container(
-                    height: size.height * 0.62,
+                child: Container(
+                  height: size.height * 0.62,
+                  child: SingleChildScrollView(
+                    physics: ClampingScrollPhysics(),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -181,7 +182,9 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                               Icon(Icons.reorder),
                             ],
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(HomePage.Route);
+                          },
                         ),
                         SizedBox(
                           height: 8,
