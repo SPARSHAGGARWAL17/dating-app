@@ -156,162 +156,171 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Container buildProfileCard(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15), color: Color(0xFAFAFA)),
-      height: getDeviceSize(context).height * 0.75,
-      width: getDeviceSize(context).width,
-      child: Column(
-        children: [
-          Expanded(
-            flex: 11,
-            child: Stack(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(0),
-                        bottomRight: Radius.circular(0),
-                        topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15)),
-                    color: Colors.white,
-                  ),
-                  height: getDeviceSize(context).height * 0.7,
-                  width: MediaQuery.of(context).size.width,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(0),
-                        bottomRight: Radius.circular(0),
-                        topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15)),
-                    child: Image(
-                        image: AssetImage(
-                            'assets/images/dogs/dog1.jpeg'), //TODO Add image Accordingly
-                        fit: BoxFit.cover),
-                  ),
-                ),
-                Positioned(
-                  bottom: 5,
-                  right: 0,
-                  child: Container(
-                    height: 105,
-                    width: 331,
-                    decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.95),
+  Widget buildProfileCard(BuildContext context) {
+    return GestureDetector(
+      onHorizontalDragStart: (details) {
+        print('Horizontal-drag: ${details.localPosition}');
+      },
+      child: Transform.rotate(
+        angle: 10,
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15), color: Color(0xFAFAFA)),
+          height: getDeviceSize(context).height * 0.75,
+          width: getDeviceSize(context).width,
+          child: Column(
+            children: [
+              Expanded(
+                flex: 11,
+                child: Stack(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(15),
+                            bottomLeft: Radius.circular(0),
                             bottomRight: Radius.circular(0),
                             topLeft: Radius.circular(15),
-                            topRight: Radius.circular(0))),
-                    child: Column(
-                      // mainAxisAlignment:
-                      //    // MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Malena Veronica,', // TODO: add name
-                                style: buildTextStyle(
-                                    size: 26, color: Colors.grey.shade500),
+                            topRight: Radius.circular(15)),
+                        color: Colors.white,
+                      ),
+                      height: getDeviceSize(context).height * 0.7,
+                      width: MediaQuery.of(context).size.width,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(0),
+                            bottomRight: Radius.circular(0),
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15)),
+                        child: Image(
+                            image: AssetImage(
+                                'assets/images/dogs/dog1.jpeg'), //TODO Add image Accordingly
+                            fit: BoxFit.cover),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 5,
+                      right: 0,
+                      child: Container(
+                        height: 105,
+                        width: 331,
+                        decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.95),
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(15),
+                                bottomRight: Radius.circular(0),
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(0))),
+                        child: Column(
+                          // mainAxisAlignment:
+                          //    // MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Malena Veronica,', // TODO: add name
+                                    style: buildTextStyle(
+                                        size: 26, color: Colors.grey.shade500),
+                                  ),
+                                  Text(
+                                    ' 23', // TODO: Add age
+                                    style: buildTextStyle(
+                                        size: 26, color: Colors.grey.shade500),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                ' 23', // TODO: Add age
-                                style: buildTextStyle(
-                                    size: 26, color: Colors.grey.shade500),
-                              ),
-                            ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  'Breed Name', // TODO: add Breed name
+                                  style: buildTextStyle(
+                                      size: 19,
+                                      color: Colors.black.withOpacity(0.55)),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(15),
+                        bottomRight: Radius.circular(15),
+                        topLeft: Radius.circular(0),
+                        topRight: Radius.circular(0)),
+                    color: Colors.white70,
+                    //color: Color(0xFAFAFA)
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      InkWell(
+                        onTap: () {}, //TODO add button
+                        child: Container(
+                          height: 60,
+                          width: 60,
+                          decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                    offset: Offset(4, 2),
+                                    color: Colors.grey.shade400,
+                                    blurRadius: 5,
+                                    spreadRadius: 3)
+                              ],
+                              borderRadius: BorderRadius.circular(100),
+                              color: Colors.white),
+                          child: Icon(
+                            Icons.close,
+                            color: Colors.grey[500],
+                            size: 26,
                           ),
                         ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              'Breed Name', // TODO: add Breed name
-                              style: buildTextStyle(
-                                  size: 19,
-                                  color: Colors.black.withOpacity(0.55)),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    bottomRight: Radius.circular(15),
-                    topLeft: Radius.circular(0),
-                    topRight: Radius.circular(0)),
-                color: Colors.white70,
-                //color: Color(0xFAFAFA)
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  InkWell(
-                    onTap: () {}, //TODO add button
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                offset: Offset(4, 2),
-                                color: Colors.grey.shade400,
-                                blurRadius: 5,
-                                spreadRadius: 3)
-                          ],
-                          borderRadius: BorderRadius.circular(100),
-                          color: Colors.white),
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.grey[500],
-                        size: 26,
                       ),
-                    ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed(MatchDialogPage.Route);
+                        }, //TODO add button
+                        child: Container(
+                          height: 60,
+                          width: 60,
+                          decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                    offset: Offset(4, 2),
+                                    color: Colors.grey.shade400,
+                                    blurRadius: 5,
+                                    spreadRadius: 3)
+                              ],
+                              borderRadius: BorderRadius.circular(100),
+                              color: Colors.white),
+                          child: Icon(
+                            Icons.favorite,
+                            color: kPrimaryColor,
+                            size: 26,
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(MatchDialogPage.Route);
-                    }, //TODO add button
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                offset: Offset(4, 2),
-                                color: Colors.grey.shade400,
-                                blurRadius: 5,
-                                spreadRadius: 3)
-                          ],
-                          borderRadius: BorderRadius.circular(100),
-                          color: Colors.white),
-                      child: Icon(
-                        Icons.favorite,
-                        color: kPrimaryColor,
-                        size: 26,
-                      ),
-                    ),
-                  )
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
