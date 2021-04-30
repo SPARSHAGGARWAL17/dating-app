@@ -7,6 +7,18 @@ class MatchDialogPage extends StatefulWidget {
 }
 
 class _MatchDialogPageState extends State<MatchDialogPage> {
+  double valueAnimate = 0;
+  Duration duration = Duration(milliseconds: 1000);
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(milliseconds: 100)).then((value) {
+      setState(() {
+        valueAnimate = 1;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,72 +31,83 @@ class _MatchDialogPageState extends State<MatchDialogPage> {
                 width: MediaQuery.of(context).size.width,
                 color: Colors.transparent,
               ),
-              Positioned(
-                bottom: 40,
-                right: 30,
-                left: 170,
-                top: 180,
-                child: Container(
-                  // height: 212,
-                  // width: 183,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                          offset: Offset(15, 20),
-                          color: Colors.black26,
-                          blurRadius: 3,
-                          spreadRadius: 3)
-                    ],
-                    color: Colors.blue,
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(15),
-                        bottomRight: Radius.circular(15),
-                        topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15)),
-                    child: Image(
-                      image: AssetImage(
-                        'assets/images/dogs/dog5.jpeg',
-                      ), //TODO add matched Dog Profile Image
-                      fit: BoxFit.cover,
+              AnimatedPositioned(
+                curve: Curves.bounceInOut,
+                duration: duration,
+                bottom: 40 * valueAnimate,
+                right: 30 * valueAnimate,
+                // left: 170,
+                // top: 180,
+                child: AnimatedOpacity(
+                  duration: duration,
+                  opacity: valueAnimate,
+                  child: Container(
+                    height: getDeviceSize(context).height * 0.35,
+                    // height: 212,
+                    width: getDeviceSize(context).width * 0.5,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                            offset: Offset(15, 20),
+                            color: Colors.black26,
+                            blurRadius: 3,
+                            spreadRadius: 3)
+                      ],
+                      color: Colors.blue,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(15),
+                          bottomRight: Radius.circular(15),
+                          topLeft: Radius.circular(15),
+                          topRight: Radius.circular(15)),
+                      child: Image(
+                        image: AssetImage(
+                          'assets/images/dogs/dog5.jpeg',
+                        ), //TODO add matched Dog Profile Image
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
               ),
-              Positioned(
-                bottom: 180,
-                right: 160,
-                left: 30,
-                top: 40,
-                child: Container(
-                  // height: MediaQuery.of(context).size.height * 0.28,
-                  // width: MediaQuery.of(context).size.width * 0.20,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.green,
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(15, 20),
-                        color: Colors.black26,
-                        blurRadius: 3,
-                        spreadRadius: 3,
-                      )
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(15),
-                      bottomRight: Radius.circular(15),
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
+              AnimatedPositioned(
+                duration: duration,
+                left: 30 * valueAnimate,
+                top: 40 * valueAnimate,
+                child: AnimatedOpacity(
+                  duration: duration,
+                  opacity: valueAnimate,
+                  child: Container(
+                    height: getDeviceSize(context).height * 0.35,
+                    // height: 212,
+                    width: getDeviceSize(context).width * 0.5,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.green,
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(15, 20),
+                          color: Colors.black26,
+                          blurRadius: 3,
+                          spreadRadius: 3,
+                        )
+                      ],
                     ),
-                    child: Image(
-                      image: AssetImage(
-                        'assets/images/dogs/dog4.jpeg',
-                      ), //TODO add matched Dog Profile Image
-                      fit: BoxFit.cover,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(15),
+                        bottomRight: Radius.circular(15),
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                      ),
+                      child: Image(
+                        image: AssetImage(
+                          'assets/images/dogs/dog4.jpeg',
+                        ), //TODO add matched Dog Profile Image
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -191,20 +214,25 @@ class _MatchDialogPageState extends State<MatchDialogPage> {
     );
   }
 
-  Positioned buildPositionedHearts(double top, double right) {
-    return Positioned(
-      right: right,
-      top: top,
-      child: Container(
-        height: 35,
-        width: 35,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-          color: Colors.white,
-        ),
-        child: Icon(
-          Icons.favorite,
-          color: kPrimaryColor,
+  Widget buildPositionedHearts(double top, double right) {
+    return AnimatedPositioned(
+      duration: duration,
+      right: right * valueAnimate,
+      top: top * valueAnimate,
+      child: AnimatedOpacity(
+        duration: duration,
+        opacity: valueAnimate,
+        child: Container(
+          height: 45,
+          width: 45,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            color: Colors.white,
+          ),
+          child: Icon(
+            Icons.favorite,
+            color: kPrimaryColor,
+          ),
         ),
       ),
     );

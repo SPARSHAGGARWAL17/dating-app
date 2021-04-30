@@ -1,6 +1,7 @@
+import 'dart:math' as math;
+import 'package:bewp_life/model/cards.dart';
 import 'package:bewp_life/view/chats/matches-chat.dart';
 import 'package:bewp_life/view/home-screens/match-dialog.dart';
-
 import '../../export.dart';
 
 class HomePage extends StatefulWidget {
@@ -9,8 +10,38 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   int _index = 0;
+  double dx = 0;
+  double prevDx = 0;
+  bool left = false;
+  late AnimationController animationController;
+  late Tween<double> tween;
+  bool animating = false;
+
+  @override
+  void initState() {
+    super.initState();
+    animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 600));
+    tween = Tween<double>(begin: 0, end: 1)
+      ..animate(
+        CurvedAnimation(
+          parent: animationController,
+          curve: Curves.easeInOutExpo,
+        ),
+      ).addListener(() {
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,9 +174,15 @@ class _HomePageState extends State<HomePage> {
                           ]),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 20),
-                    child: buildProfileCard(context),
+                  Stack(
+                    children: matchCard
+                        .map(
+                          (e) => Padding(
+                            padding: const EdgeInsets.fromLTRB(5, 0, 5, 20),
+                            child: buildProfileCard(context, e),
+                          ),
+                        )
+                        .toList(),
                   ),
                 ],
               ),
@@ -156,16 +193,55 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildProfileCard(BuildContext context) {
+  Widget buildProfileCard(BuildContext context, MatchCard match) {
+    var dragging = false;
+
     return GestureDetector(
       onHorizontalDragStart: (details) {
+        dx = details.localPosition.dx;
+        dragging = true;
+        prevDx = dx;
+        print(details.localPosition.distance);
         print('Horizontal-drag: ${details.localPosition}');
       },
+      onHorizontalDragUpdate: (details) {
+        setState(() {
+          dx = (details.localPosition.dx - prevDx) / 10;
+        });
+        if (dx < -25 || dx > 30) {
+          matchCard.removeWhere((element) => element == match);
+          dx = 0;
+          setState(() {});
+        }
+      },
+      onHorizontalDragEnd: (details) {
+        print(dx);
+        setState(() {
+          dragging = false;
+          dx = 0;
+          prevDx = 0;
+        });
+      },
       child: Transform.rotate(
-        angle: 10,
+        angle: !animating
+            ? math.pi / 180 * dx
+            : (math.pi / 180 * 45 * animationController.value) *
+                (left ? -1 : 1),
+        alignment: Alignment.bottomCenter,
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15), color: Color(0xFAFAFA)),
+              borderRadius: BorderRadius.circular(15),
+              color: Color(0xFAFAFA),
+              boxShadow: dragging
+                  ? [
+                      BoxShadow(
+                        color: Colors.grey,
+                        offset: Offset(5, 0),
+                        blurRadius: 5,
+                        spreadRadius: 2,
+                      )
+                    ]
+                  : []),
           height: getDeviceSize(context).height * 0.75,
           width: getDeviceSize(context).width,
           child: Column(
@@ -193,7 +269,7 @@ class _HomePageState extends State<HomePage> {
                             topRight: Radius.circular(15)),
                         child: Image(
                             image: AssetImage(
-                                'assets/images/dogs/dog1.jpeg'), //TODO Add image Accordingly
+                                match.imageUrl), //TODO Add image Accordingly
                             fit: BoxFit.cover),
                       ),
                     ),
@@ -220,7 +296,7 @@ class _HomePageState extends State<HomePage> {
                               child: Row(
                                 children: [
                                   Text(
-                                    'Malena Veronica,', // TODO: add name
+                                    '${match.name},', // TODO: add name
                                     style: buildTextStyle(
                                         size: 26, color: Colors.grey.shade500),
                                   ),
@@ -238,7 +314,7 @@ class _HomePageState extends State<HomePage> {
                                   width: 10,
                                 ),
                                 Text(
-                                  'Breed Name', // TODO: add Breed name
+                                  match.breedName, // TODO: add Breed name
                                   style: buildTextStyle(
                                       size: 19,
                                       color: Colors.black.withOpacity(0.55)),
@@ -268,7 +344,18 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       InkWell(
-                        onTap: () {}, //TODO add button
+                        onTap: () {
+                          left = true;
+                          animating = true;
+                          animationController.forward().then((value) {
+                            animationController.reset();
+                            matchCard
+                                .removeWhere((element) => element == match);
+                            setState(() {
+                              animating = false;
+                            });
+                          });
+                        }, //TODO add button
                         child: Container(
                           height: 60,
                           width: 60,
@@ -291,8 +378,22 @@ class _HomePageState extends State<HomePage> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.of(context)
-                              .pushNamed(MatchDialogPage.Route);
+                          left = false;
+                          animating = true;
+                          animationController.forward().then((value) {
+                            animationController.reset();
+                            if (matchCard.indexOf(match) % 2 == 0) {
+                              Navigator.of(context)
+                                  .pushNamed(MatchDialogPage.Route);
+                            }
+                            matchCard
+                                .removeWhere((element) => element == match);
+                            setState(() {
+                              animating = false;
+                            });
+                          });
+                          // Navigator.of(context)
+                          //     .pushNamed(MatchDialogPage.Route);
                         }, //TODO add button
                         child: Container(
                           height: 60,

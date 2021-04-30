@@ -2,6 +2,7 @@
 
 import 'package:bewp_life/export.dart';
 import 'package:bewp_life/routes.dart';
+import 'package:bewp_life/view/home-screens/match-dialog.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.pink,
       ),
       routes: routes,
-      initialRoute: WelcomePage.Route,
+      initialRoute: HomePage.Route,
     );
   }
 }
