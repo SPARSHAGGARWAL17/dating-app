@@ -91,6 +91,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                   ),
                 ),
                 child: SingleChildScrollView(
+                  physics: ClampingScrollPhysics(),
                   child: Container(
                     height: size.height * 0.62,
                     child: Column(

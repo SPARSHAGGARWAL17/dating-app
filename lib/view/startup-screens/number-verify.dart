@@ -63,16 +63,23 @@ class _NumberVerifyPageState extends State<NumberVerifyPage> {
                     counterText: '',
                     icon: Container(
                       height: 30,
-                      width: 50,
+                      width: 60,
                       margin: EdgeInsets.all(10),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
-                          color: Colors.grey[600]),
-                      child: Center(
-                        child: Text(
-                          '+91',
-                          style: buildTextStyle(color: Colors.white),
-                        ),
+                          color: Colors.grey[300]),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '+91',
+                            style: buildTextStyle(color: Colors.black),
+                          ),
+                          Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.blue,
+                          )
+                        ],
                       ),
                     )),
               ),
@@ -105,49 +112,49 @@ class _NumberVerifyPageState extends State<NumberVerifyPage> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Didn\'t receive a verification code? ',
-                    style: buildTextStyle(color: kGreyColor, size: 14),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        onPressed: () {},
-                        style: ButtonStyle(
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap),
-                        child: Text(
-                          'Resend code | ',
-                          style: buildTextStyle(
-                              color: kPrimaryColor,
-                              size: 14,
-                              weight: FontWeight.bold),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        style: ButtonStyle(
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap),
-                        child: Text(
-                          'Change number',
-                          style: buildTextStyle(
-                              color: kPrimaryColor,
-                              size: 14,
-                              weight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            )
+            // SizedBox(
+            //   height: 20,
+            // ),
+            // Container(
+            //   child: Column(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       Text(
+            //         'Didn\'t receive a verification code? ',
+            //         style: buildTextStyle(color: kGreyColor, size: 14),
+            //       ),
+            //       Row(
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: [
+            //           TextButton(
+            //             onPressed: () {},
+            //             style: ButtonStyle(
+            //                 tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+            //             child: Text(
+            //               'Resend code | ',
+            //               style: buildTextStyle(
+            //                   color: kPrimaryColor,
+            //                   size: 14,
+            //                   weight: FontWeight.bold),
+            //             ),
+            //           ),
+            //           TextButton(
+            //             onPressed: () {},
+            //             style: ButtonStyle(
+            //                 tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+            //             child: Text(
+            //               'Change number',
+            //               style: buildTextStyle(
+            //                   color: kPrimaryColor,
+            //                   size: 14,
+            //                   weight: FontWeight.bold),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // )
           ],
         ),
       )),

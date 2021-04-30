@@ -98,7 +98,7 @@ class _RegisterAppState extends State<RegisterApp> {
                               ? 'Date of Birth'
                               : DateFormat('dd/MM/yyyy')
                                   .format(dob ?? DateTime.now()),
-                          style: buildTextStyle(color: kGreyColor),
+                          style: buildTextStyle(color: Colors.black),
                         ),
                         decoration: BoxDecoration(
                           border: Border(bottom: BorderSide(color: kGreyColor)),
@@ -271,8 +271,12 @@ class _RegisterAppState extends State<RegisterApp> {
     return date;
   }
 
-  TextButton buildGenderButton(String title) {
-    return TextButton(
+  ElevatedButton buildGenderButton(String title) {
+    return ElevatedButton(
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(
+              currentGender == title ? kPrimaryColor : kGreyColor),
+          minimumSize: MaterialStateProperty.all(Size(94, 30))),
       onPressed: () {
         currentGender = title;
         setState(() {});
@@ -282,8 +286,8 @@ class _RegisterAppState extends State<RegisterApp> {
           borderRadius: BorderRadius.circular(5),
           color: currentGender == title ? kPrimaryColor : kGreyColor,
         ),
-        height: 35,
-        width: 120,
+        height: 30,
+        width: 94,
         child: Center(
           child: Text(
             title,
