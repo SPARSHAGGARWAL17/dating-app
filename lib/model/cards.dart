@@ -75,7 +75,7 @@ List<MatchCard> matchCard = [
     name: 'Malena Veronica',
   ),
   MatchCard(
-    id: 8,
+    id: 9,
     imageUrl: 'assets/images/dogs/dog2.jpeg',
     breedName: 'Breed Name',
     name: 'Malena Veronica',

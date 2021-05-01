@@ -25,7 +25,7 @@ class MatchesChatPage extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
               children: kMatches
-                  .map((e) => circleProfilePhoto(e.image, 25))
+                  .map((e) => circleProfilePhoto(e.image, 30))
                   .toList()),
         ),
         Padding(
@@ -36,7 +36,7 @@ class MatchesChatPage extends StatelessWidget {
           ),
         ),
         Container(
-          height: getDeviceSize(context).height * 0.625,
+          height: getDeviceSize(context).height * 0.628,
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             scrollDirection: Axis.vertical,
