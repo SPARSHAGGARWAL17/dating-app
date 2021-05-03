@@ -32,7 +32,7 @@ class _MatchDialogPageState extends State<MatchDialogPage> {
                 color: Colors.transparent,
               ),
               AnimatedPositioned(
-                curve: Curves.bounceInOut,
+                curve: Curves.fastLinearToSlowEaseIn,
                 duration: duration,
                 bottom: 40 * valueAnimate,
                 right: 30 * valueAnimate,
@@ -112,26 +112,11 @@ class _MatchDialogPageState extends State<MatchDialogPage> {
                   ),
                 ),
               ),
-              buildPositionedHearts(
-                380,
-                40,
-              ),
-              buildPositionedHearts(
-                50,
-                69,
-              ),
-              buildPositionedHearts(
-                5,
-                300,
-              ),
-              buildPositionedHearts(
-                270,
-                230,
-              ),
-              buildPositionedHearts(
-                195,
-                146,
-              ),
+              buildPositionedHearts(left: 40, top: 20),
+              buildPositionedHearts(right: 70, top: 50),
+              buildPositionedHearts(right: 50, bottom: 50),
+              buildPositionedHearts(left: 120, bottom: 120),
+              buildPositionedHearts(left: 40, bottom: 40),
             ]),
             Container(
               height: MediaQuery.of(context).size.height * 0.3,
@@ -214,20 +199,30 @@ class _MatchDialogPageState extends State<MatchDialogPage> {
     );
   }
 
-  Widget buildPositionedHearts(double top, double right) {
+  Widget buildPositionedHearts(
+      {double? top,
+      double? right,
+      double? left,
+      double? bottom,
+      Color? color}) {
     return AnimatedPositioned(
+      height: 45,
+      width: 45,
       duration: duration,
-      right: right * valueAnimate,
-      top: top * valueAnimate,
+      right: right == null ? null : right * valueAnimate,
+      top: top == null ? null : top * valueAnimate,
+      left: left == null ? null : left * valueAnimate,
+      bottom: bottom == null ? null : bottom * valueAnimate,
+      // bottom: (bottom ?? 0) * valueAnimate,
       child: AnimatedOpacity(
         duration: duration,
         opacity: valueAnimate,
         child: Container(
-          height: 45,
-          width: 45,
+          height: 10,
+          width: 10,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(100),
-            color: Colors.white,
+            color: color ?? Colors.white,
           ),
           child: Icon(
             Icons.favorite,
