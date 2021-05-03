@@ -119,6 +119,7 @@ class _HomePageState extends State<HomePage>
                             children: [
                               InkWell(
                                 onTap: () {}, //TODO add Button
+                                
                                 child: Container(
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
@@ -176,7 +177,7 @@ class _HomePageState extends State<HomePage>
                     ),
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Stack(
                           // fit: StackFit.expand,
                           alignment: Alignment.center,
@@ -190,8 +191,45 @@ class _HomePageState extends State<HomePage>
                                       color: Colors.grey.shade700, size: 25),
                                 ),
                               ),
-                            for (int i = 0; i < matchCard.length; i++)
-                              buildProfileCard(context, matchCard[i]),
+                            for (var i = 0; i < matchCard.length; i++)
+                              Row(
+                                children: [
+                                  DragTarget(
+                                    onWillAccept: (data) {
+                                      return false;
+                                    },
+                                    builder:
+                                        (context, candidateData, rejectedData) {
+                                      return Visibility(
+                                        visible: false,
+                                        child: SizedBox(
+                                          width: 10,
+                                          height: double.infinity,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: i.toDouble()),
+                                    child:
+                                        buildProfileCard(context, matchCard[i]),
+                                  ),
+                                  DragTarget(
+                                    onWillAccept: (data) {
+                                      return false;
+                                    },
+                                    builder:
+                                        (context, candidateData, rejectedData) {
+                                      return Visibility(
+                                        visible: false,
+                                        child: SizedBox(
+                                          width: 10,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
                           ],
                         ),
                       ),
@@ -211,246 +249,258 @@ class _HomePageState extends State<HomePage>
     if (matchCard.indexOf(match) != matchCard.length - 1)
       return buildSingleCard(dragging, context, match);
 
-    return GestureDetector(
-      onHorizontalDragStart: (details) {
-        dx = details.localPosition.dx;
-        dragging = true;
-        prevDx = dx;
-        print(details.localPosition.distance);
-        print('Horizontal-drag: ${details.localPosition}');
+    return Draggable(
+      onDragStarted: () {},
+      onDragUpdate: (details) {
+        dx += 10;
+        setState(() {});
       },
-      onHorizontalDragUpdate: (details) {
-        setState(() {
-          dx = (details.localPosition.dx - prevDx) / 10;
-        });
-      },
-      onHorizontalDragEnd: (details) {
-        print(dx);
-        if (dx < -18) {
-          matchCard.removeWhere((element) => element == match);
-          dx = 0;
-          setState(() {});
-        }
-        if (dx > 18) {
-          if (matchCard.indexOf(match) % 2 == 0) {
-            Navigator.of(context).pushNamed(MatchDialogPage.Route);
-          }
-          matchCard.removeWhere((element) => element == match);
-          dx = 0;
-          setState(() {});
-        }
-        setState(() {
-          dragging = false;
-          dx = 0;
-          prevDx = 0;
-        });
-      },
-      child: Transform.rotate(
-        origin: Offset(0, getDeviceSize(context).height + 250),
-        angle: !animating
-            ? math.pi / 180 * dx
-            : (math.pi / 180 * 45 * animationController.value) *
-                (left ? -1 : 1),
-        // alignment: Alignment.bottomCenter,
-        child: buildSingleCard(dragging, context, match),
+      feedback: buildSingleCard(dragging, context, match),
+      data: match,
+      childWhenDragging: Container(),
+      child: GestureDetector(
+        // onHorizontalDragStart: (details) {
+        //   dx = details.localPosition.dx;
+        //   dragging = true;
+        //   prevDx = dx;
+        //   print(details.localPosition.distance);
+        //   print('Horizontal-drag: ${details.localPosition}');
+        // },
+        // onHorizontalDragUpdate: (details) {
+        //   setState(() {
+        //     dx = (details.localPosition.dx - prevDx) / 10;
+        //   });
+        // },
+        // onHorizontalDragEnd: (details) {
+        //   print(dx);
+        //   if (dx < -18) {
+        //     matchCard.removeWhere((element) => element == match);
+        //     dx = 0;
+        //     setState(() {});
+        //   }
+        //   if (dx > 18) {
+        //     if (matchCard.indexOf(match) % 2 == 0) {
+        //       Navigator.of(context).pushNamed(MatchDialogPage.Route);
+        //     }
+        //     matchCard.removeWhere((element) => element == match);
+        //     dx = 0;
+        //     setState(() {});
+        //   }
+        //   setState(() {
+        //     dragging = false;
+        //     dx = 0;
+        //     prevDx = 0;
+        //   });
+        // },
+        child: Transform.rotate(
+          origin: Offset(0, -getDeviceSize(context).height + 250),
+          angle: !animating
+              ? math.pi / 180 * dx
+              : (math.pi / 180 * 45 * animationController.value) *
+                  (left ? -1 : 1),
+          // alignment: Alignment.bottomCenter,
+          child: buildSingleCard(dragging, context, match),
+        ),
       ),
     );
   }
 
-  Container buildSingleCard(
-      bool dragging, BuildContext context, MatchCard match) {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: Color(0xFAFAFA),
-          boxShadow: dragging
-              ? [
-                  BoxShadow(
-                    color: Colors.grey,
-                    offset: Offset(5, 0),
-                    blurRadius: 5,
-                    spreadRadius: 2,
-                  )
-                ]
-              : []),
-      height: getDeviceSize(context).height * 0.78,
-      width: getDeviceSize(context).width,
-      child: Column(
-        children: [
-          Expanded(
-            flex: 11,
-            child: Stack(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(0),
-                        bottomRight: Radius.circular(0),
-                        topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15)),
-                    color: Colors.white,
-                  ),
-                  height: getDeviceSize(context).height * 0.7,
-                  width: MediaQuery.of(context).size.width,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(0),
-                        bottomRight: Radius.circular(0),
-                        topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15)),
-                    child: Image(
-                        image: AssetImage(
-                            match.imageUrl), //TODO Add image Accordingly
-                        fit: BoxFit.cover),
-                  ),
-                ),
-                Positioned(
-                  bottom: 5,
-                  right: 0,
-                  child: Container(
-                    height: 105,
-                    width: 331,
+  Widget buildSingleCard(bool dragging, BuildContext context, MatchCard match) {
+    return Material(
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: Color(0xFAFAFA),
+            boxShadow: dragging
+                ? [
+                    BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(5, 0),
+                      blurRadius: 5,
+                      spreadRadius: 2,
+                    )
+                  ]
+                : []),
+        height: getDeviceSize(context).height * 0.75,
+        width: getDeviceSize(context).width - 20,
+        child: Column(
+          children: [
+            Expanded(
+              flex: 11,
+              child: Stack(
+                children: [
+                  Container(
                     decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.95),
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(15),
-                            bottomRight: Radius.circular(0),
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(0))),
-                    child: Column(
-                      // mainAxisAlignment:
-                      //    // MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Row(
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(0),
+                          bottomRight: Radius.circular(0),
+                          topLeft: Radius.circular(15),
+                          topRight: Radius.circular(15)),
+                      color: Colors.white,
+                    ),
+                    height: getDeviceSize(context).height * 0.7,
+                    width: MediaQuery.of(context).size.width,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(0),
+                          bottomRight: Radius.circular(0),
+                          topLeft: Radius.circular(15),
+                          topRight: Radius.circular(15)),
+                      child: Image(
+                          image: AssetImage(
+                              match.imageUrl), //TODO Add image Accordingly
+                          fit: BoxFit.cover),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 5,
+                    right: 0,
+                    child: Container(
+                      height: 105,
+                      width: 331,
+                      decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.95),
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(15),
+                              bottomRight: Radius.circular(0),
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(0))),
+                      child: Column(
+                        // mainAxisAlignment:
+                        //    // MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  '${match.name},', // TODO: add name
+                                  style: buildTextStyle(
+                                      size: 26, color: Colors.grey.shade500),
+                                ),
+                                Text(
+                                  ' 23', // TODO: Add age
+                                  style: buildTextStyle(
+                                      size: 26, color: Colors.grey.shade500),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Row(
                             children: [
-                              Text(
-                                '${match.name},', // TODO: add name
-                                style: buildTextStyle(
-                                    size: 26, color: Colors.grey.shade500),
+                              SizedBox(
+                                width: 10,
                               ),
                               Text(
-                                ' 23', // TODO: Add age
+                                match.breedName +
+                                    (matchCard.indexOf(match))
+                                        .toString(), // TODO: add Breed name
                                 style: buildTextStyle(
-                                    size: 26, color: Colors.grey.shade500),
+                                    size: 19,
+                                    color: Colors.black.withOpacity(0.55)),
                               ),
                             ],
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              match.breedName +
-                                  (matchCard.indexOf(match))
-                                      .toString(), // TODO: add Breed name
-                              style: buildTextStyle(
-                                  size: 19,
-                                  color: Colors.black.withOpacity(0.55)),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    bottomRight: Radius.circular(15),
-                    topLeft: Radius.circular(0),
-                    topRight: Radius.circular(0)),
-                color: Colors.white,
-                //color: Color(0xFAFAFA)
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      left = true;
-                      animating = true;
-                      animationController.forward().then((value) {
-                        animationController.reset();
-                        matchCard.removeWhere((element) => element == match);
-                        setState(() {
-                          animating = false;
-                        });
-                      });
-                    }, //TODO add button
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                offset: Offset(4, 2),
-                                color: Colors.grey.shade400,
-                                blurRadius: 5,
-                                spreadRadius: 3)
-                          ],
-                          borderRadius: BorderRadius.circular(100),
-                          color: Colors.white),
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.grey[500],
-                        size: 26,
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      left = false;
-                      animating = true;
-                      animationController.forward().then((value) {
-                        animationController.reset();
-                        if (matchCard.indexOf(match) % 2 == 0) {
-                          Navigator.of(context)
-                              .pushNamed(MatchDialogPage.Route);
-                        }
-                        matchCard.removeWhere((element) => element == match);
-                        setState(() {
-                          animating = false;
-                        });
-                      });
-                      // Navigator.of(context)
-                      //     .pushNamed(MatchDialogPage.Route);
-                    }, //TODO add button
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                offset: Offset(4, 2),
-                                color: Colors.grey.shade400,
-                                blurRadius: 5,
-                                spreadRadius: 3)
-                          ],
-                          borderRadius: BorderRadius.circular(100),
-                          color: Colors.white),
-                      child: Icon(
-                        Icons.favorite,
-                        color: kPrimaryColor,
-                        size: 26,
+                          )
+                        ],
                       ),
                     ),
                   )
                 ],
               ),
             ),
-          ),
-        ],
+            Expanded(
+              flex: 2,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15),
+                      topLeft: Radius.circular(0),
+                      topRight: Radius.circular(0)),
+                  color: Colors.white,
+                  //color: Color(0xFAFAFA)
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        left = true;
+                        animating = true;
+                        animationController.forward().then((value) {
+                          animationController.reset();
+                          matchCard.removeWhere((element) => element == match);
+                          setState(() {
+                            animating = false;
+                          });
+                        });
+                      }, //TODO add button
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                  offset: Offset(4, 2),
+                                  color: Colors.grey.shade400,
+                                  blurRadius: 5,
+                                  spreadRadius: 3)
+                            ],
+                            borderRadius: BorderRadius.circular(100),
+                            color: Colors.white),
+                        child: Icon(
+                          Icons.close,
+                          color: Colors.grey[500],
+                          size: 26,
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        left = false;
+                        animating = true;
+                        animationController.forward().then((value) {
+                          animationController.reset();
+                          if (matchCard.indexOf(match) % 2 == 0) {
+                            Navigator.of(context)
+                                .pushNamed(MatchDialogPage.Route);
+                          }
+                          matchCard.removeWhere((element) => element == match);
+                          setState(() {
+                            animating = false;
+                          });
+                        });
+                        // Navigator.of(context)
+                        //     .pushNamed(MatchDialogPage.Route);
+                      }, //TODO add button
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                  offset: Offset(4, 2),
+                                  color: Colors.grey.shade400,
+                                  blurRadius: 5,
+                                  spreadRadius: 3)
+                            ],
+                            borderRadius: BorderRadius.circular(100),
+                            color: Colors.white),
+                        child: Icon(
+                          Icons.favorite,
+                          color: kPrimaryColor,
+                          size: 26,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
