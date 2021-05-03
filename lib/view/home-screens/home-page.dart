@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:bewp_life/model/cards.dart';
 import 'package:bewp_life/view/chats/matches-chat.dart';
 import 'package:bewp_life/view/home-screens/match-dialog.dart';
+import 'package:flutter_tindercard/flutter_tindercard.dart';
 import '../../export.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,6 +18,7 @@ class _HomePageState extends State<HomePage>
   double prevDx = 0;
   bool left = false;
   late AnimationController animationController;
+  CardController cardController = CardController();
   late Tween<double> tween;
   bool animating = false;
 
@@ -119,7 +121,7 @@ class _HomePageState extends State<HomePage>
                             children: [
                               InkWell(
                                 onTap: () {}, //TODO add Button
-                                
+
                                 child: Container(
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
@@ -176,62 +178,78 @@ class _HomePageState extends State<HomePage>
                       ),
                     ),
                     Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Stack(
-                          // fit: StackFit.expand,
-                          alignment: Alignment.center,
-                          // fit: StackFit.passthrough,
-                          children: [
-                            if (matchCard.isEmpty)
-                              Center(
-                                child: Text(
-                                  'No Matches Nearby!',
-                                  style: buildTextStyle(
-                                      color: Colors.grey.shade700, size: 25),
-                                ),
+                      child: Stack(
+                        // fit: StackFit.expand,
+                        alignment: Alignment.center,
+                        // fit: StackFit.passthrough,
+                        children: [
+                          if (matchCard.isEmpty)
+                            Center(
+                              child: Text(
+                                'No Matches Nearby!',
+                                style: buildTextStyle(
+                                    color: Colors.grey.shade700, size: 25),
                               ),
-                            for (var i = 0; i < matchCard.length; i++)
-                              Row(
-                                children: [
-                                  DragTarget(
-                                    onWillAccept: (data) {
-                                      return false;
-                                    },
-                                    builder:
-                                        (context, candidateData, rejectedData) {
-                                      return Visibility(
-                                        visible: false,
-                                        child: SizedBox(
-                                          width: 10,
-                                          height: double.infinity,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: i.toDouble()),
-                                    child:
-                                        buildProfileCard(context, matchCard[i]),
-                                  ),
-                                  DragTarget(
-                                    onWillAccept: (data) {
-                                      return false;
-                                    },
-                                    builder:
-                                        (context, candidateData, rejectedData) {
-                                      return Visibility(
-                                        visible: false,
-                                        child: SizedBox(
-                                          width: 10,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                          ],
-                        ),
+                            ),
+                          // for (var i = 0; i < matchCard.length; i++)
+                          TinderSwapCard(
+                            cardController: cardController,
+                            swipeCompleteCallback: (orientation, index) {
+                              if (orientation == CardSwipeOrientation.RIGHT &&
+                                  index % 2 == 0) {
+                                Navigator.of(context)
+                                    .pushNamed(MatchDialogPage.Route);
+                              }
+                            },
+                            maxWidth: getDeviceSize(context).width,
+                            maxHeight: getDeviceSize(context).height * 0.8,
+                            minWidth: getDeviceSize(context).width * 0.75,
+                            minHeight: getDeviceSize(context).height * 0.6,
+                            cardBuilder: (context, index) {
+                              return buildSingleCard(
+                                  false, context, matchCard[index]);
+                            },
+                            totalNum: matchCard.length,
+                          )
+                          // Row(
+                          //   children: [
+                          //     DragTarget(
+                          //       onWillAccept: (data) {
+                          //         return false;
+                          //       },
+                          //       builder:
+                          //           (context, candidateData, rejectedData) {
+                          //         return Visibility(
+                          //           visible: false,
+                          //           child: SizedBox(
+                          //             width: 10,
+                          //             height: double.infinity,
+                          //           ),
+                          //         );
+                          //       },
+                          //     ),
+                          //     Padding(
+                          //       padding: EdgeInsets.only(top: i.toDouble()),
+                          //       child:
+                          //           buildProfileCard(context, matchCard[i]),
+                          //     ),
+                          //     DragTarget(
+                          //       onWillAccept: (data) {
+                          //         return false;
+                          //       },
+                          //       builder:
+                          //           (context, candidateData, rejectedData) {
+                          //         return Visibility(
+                          //           visible: false,
+                          //           child: SizedBox(
+                          //             width: 10,
+                          //           ),
+                          //         );
+                          //       },
+                          //     ),
+                          //   ],
+                          // ),
+                        ],
                       ),
                     ),
                   ],
@@ -322,8 +340,8 @@ class _HomePageState extends State<HomePage>
                     )
                   ]
                 : []),
-        height: getDeviceSize(context).height * 0.75,
-        width: getDeviceSize(context).width - 20,
+        // height: getDeviceSize(context).height * 0.75,
+        // width: getDeviceSize(context).width - 20,
         child: Column(
           children: [
             Expanded(
@@ -333,10 +351,11 @@ class _HomePageState extends State<HomePage>
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(0),
-                          bottomRight: Radius.circular(0),
-                          topLeft: Radius.circular(15),
-                          topRight: Radius.circular(15)),
+                        bottomLeft: Radius.circular(0),
+                        bottomRight: Radius.circular(0),
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                      ),
                       color: Colors.white,
                     ),
                     height: getDeviceSize(context).height * 0.7,
@@ -427,15 +446,16 @@ class _HomePageState extends State<HomePage>
                   children: [
                     InkWell(
                       onTap: () {
-                        left = true;
-                        animating = true;
-                        animationController.forward().then((value) {
-                          animationController.reset();
-                          matchCard.removeWhere((element) => element == match);
-                          setState(() {
-                            animating = false;
-                          });
-                        });
+                        cardController.triggerLeft();
+                        // left = true;
+                        // animating = true;
+                        // animationController.forward().then((value) {
+                        //   animationController.reset();
+                        //   matchCard.removeWhere((element) => element == match);
+                        //   setState(() {
+                        //     animating = false;
+                        //   });
+                        // });
                       }, //TODO add button
                       child: Container(
                         height: 60,
@@ -459,19 +479,20 @@ class _HomePageState extends State<HomePage>
                     ),
                     InkWell(
                       onTap: () {
-                        left = false;
-                        animating = true;
-                        animationController.forward().then((value) {
-                          animationController.reset();
-                          if (matchCard.indexOf(match) % 2 == 0) {
-                            Navigator.of(context)
-                                .pushNamed(MatchDialogPage.Route);
-                          }
-                          matchCard.removeWhere((element) => element == match);
-                          setState(() {
-                            animating = false;
-                          });
-                        });
+                        cardController.triggerRight();
+                        // left = false;
+                        // animating = true;
+                        // animationController.forward().then((value) {
+                        //   animationController.reset();
+                        //   if (matchCard.indexOf(match) % 2 == 0) {
+                        //     Navigator.of(context)
+                        //         .pushNamed(MatchDialogPage.Route);
+                        //   }
+                        //   matchCard.removeWhere((element) => element == match);
+                        //   setState(() {
+                        //     animating = false;
+                        //   });
+                        // });
                         // Navigator.of(context)
                         //     .pushNamed(MatchDialogPage.Route);
                       }, //TODO add button

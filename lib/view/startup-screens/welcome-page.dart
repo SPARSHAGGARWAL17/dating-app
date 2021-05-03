@@ -3,8 +3,22 @@ import 'package:bewp_life/view/startup-screens/login-email.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class WelcomePage extends StatelessWidget {
+class WelcomePage extends StatefulWidget {
   static const Route = '/';
+
+  @override
+  _WelcomePageState createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
+  CarouselController carouselController = CarouselController();
+
+  @override
+  void dispose() {
+    carouselController.stopAutoPlay();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,6 +31,7 @@ class WelcomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               CarouselSlider(
+                carouselController: CarouselController(),
                 options: CarouselOptions(
                   initialPage: 0,
                   autoPlay: true,
