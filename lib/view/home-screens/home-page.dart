@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:bewp_life/model/cards.dart';
 import 'package:bewp_life/view/chats/matches-chat.dart';
 import 'package:bewp_life/view/home-screens/match-dialog.dart';
+import 'package:bewp_life/view/profile/profile-form.dart';
 import '../cards/card-animation.dart';
 import '../../export.dart';
 
@@ -17,7 +18,7 @@ class _HomePageState extends State<HomePage>
   double dx = 0;
   double prevDx = 0;
   bool left = false;
-  late AnimationController animationController;
+  // late AnimationController animationController;
   CardController cardController = CardController();
   late Tween<double> tween;
   bool animating = false;
@@ -25,22 +26,22 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-    animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1000));
-    tween = Tween<double>(begin: 0, end: 1)
-      ..animate(
-        CurvedAnimation(
-          parent: animationController,
-          curve: Curves.easeInOutExpo,
-        ),
-      ).addListener(() {
-        setState(() {});
-      });
+    // animationController = AnimationController(
+    //     vsync: this, duration: Duration(milliseconds: 1000));
+    // tween = Tween<double>(begin: 0, end: 1)
+    //   ..animate(
+    //     CurvedAnimation(
+    //       parent: animationController,
+    //       curve: Curves.easeInOutExpo,
+    //     ),
+    //   ).addListener(() {
+    //     setState(() {});
+    //   });
   }
 
   @override
   void dispose() {
-    animationController.dispose();
+    // animationController.dispose();
     super.dispose();
   }
 
@@ -71,27 +72,25 @@ class _HomePageState extends State<HomePage>
         items: [
           new BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            title: Text(
-              'EXPLORE',
-              style:
-                  buildTextStyle(size: 10, color: Colors.black.withOpacity(1)),
-            ),
+
+            label: 'EXPLORE',
+
+            // buildTextStyle(size: 10, color: Colors.black.withOpacity(1)),
+            // ),
           ),
           new BottomNavigationBarItem(
             icon: Icon(Icons.chat),
-            title: Text(
-              'CHAT',
-              style:
-                  buildTextStyle(size: 10, color: Colors.black.withOpacity(1)),
-            ),
+            label: 'CHAT',
+            //   style:
+            //       buildTextStyle(size: 10, color: Colors.black.withOpacity(1)),
+            // ),
           ),
           new BottomNavigationBarItem(
             icon: Icon(Icons.account_box),
-            title: Text(
-              'PROFILE',
-              style:
-                  buildTextStyle(size: 10, color: Colors.black.withOpacity(1)),
-            ),
+            label: 'PROFILE',
+            //   style:
+            //       buildTextStyle(size: 10, color: Colors.black.withOpacity(1)),
+            // ),
           ),
         ],
       ),
@@ -192,26 +191,28 @@ class _HomePageState extends State<HomePage>
                               ),
                             ),
                           // for (var i = 0; i < matchCard.length; i++)
-                          SwapCard(
-                            cardController: cardController,
-
-                            swipeCompleteCallback: (orientation, index) {
-                              if (orientation == CardSwipeOrientation.RIGHT &&
-                                  index % 2 == 0) {
-                                Navigator.of(context)
-                                    .pushNamed(MatchDialogPage.Route);
-                              }
-                            },
-                            maxWidth: getDeviceSize(context).width,
-                            maxHeight: getDeviceSize(context).height * 0.8,
-                            minWidth: getDeviceSize(context).width * 0.75,
-                            minHeight: getDeviceSize(context).height * 0.6,
-                            cardBuilder: (context, index) {
-                              return buildSingleCard(
-                                  false, context, matchCard[index]);
-                            },
-                            totalNum: matchCard.length,
-                          )
+                          if (matchCard.isNotEmpty)
+                            SwapCard(
+                              animDuration: 250,
+                              cardController: cardController,
+                              swipeCompleteCallback: (orientation, index) {
+                                if (orientation == CardSwipeOrientation.RIGHT &&
+                                    index % 2 == 0) {
+                                  Navigator.of(context)
+                                      .pushNamed(MatchDialogPage.Route);
+                                  // matchCard.removeAt(index);
+                                }
+                              },
+                              maxWidth: getDeviceSize(context).width,
+                              maxHeight: getDeviceSize(context).height * 0.8,
+                              minWidth: getDeviceSize(context).width * 0.75,
+                              minHeight: getDeviceSize(context).height * 0.6,
+                              cardBuilder: (context, index) {
+                                return buildSingleCard(
+                                    false, context, matchCard[index]);
+                              },
+                              totalNum: matchCard.length,
+                            )
                           // Row(
                           //   children: [
                           //     DragTarget(
@@ -259,7 +260,7 @@ class _HomePageState extends State<HomePage>
             )
           : _index == 1
               ? MatchesChatPage()
-              : Container(),
+              : ProfileFormPage(),
     );
   }
 
@@ -312,11 +313,12 @@ class _HomePageState extends State<HomePage>
         //   });
         // },
         child: Transform.rotate(
+          angle: 0,
           origin: Offset(0, -getDeviceSize(context).height + 250),
-          angle: !animating
-              ? math.pi / 180 * dx
-              : (math.pi / 180 * 45 * animationController.value) *
-                  (left ? -1 : 1),
+          // angle: !animating
+          //     ? math.pi / 180 * dx
+          //     : (math.pi / 180 * 45 * animationController.value) *
+          //         (left ? -1 : 1),
           // alignment: Alignment.bottomCenter,
           child: buildSingleCard(dragging, context, match),
         ),

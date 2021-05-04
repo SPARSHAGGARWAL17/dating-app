@@ -14,7 +14,7 @@ class MatchesChatPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.all(18.0),
+          padding: const EdgeInsets.all(17.0),
           child: Text(
             'Matches',
             style: buildTextStyle(size: 22),

@@ -8,7 +8,7 @@ class MatchDialogPage extends StatefulWidget {
 
 class _MatchDialogPageState extends State<MatchDialogPage> {
   double valueAnimate = 0;
-  Duration duration = Duration(milliseconds: 1000);
+  Duration duration = Duration(milliseconds: 600);
   @override
   void initState() {
     super.initState();
@@ -114,9 +114,19 @@ class _MatchDialogPageState extends State<MatchDialogPage> {
               ),
               buildPositionedHearts(left: 40, top: 20),
               buildPositionedHearts(right: 70, top: 50),
-              buildPositionedHearts(right: 50, bottom: 50),
-              buildPositionedHearts(left: 120, bottom: 120),
-              buildPositionedHearts(left: 40, bottom: 40),
+              buildPositionedHearts(
+                right: 50,
+                bottom: 50,
+                blur: false,
+              ),
+              buildPositionedHearts(
+                left: 170,
+                bottom: 170,
+                height: 55,
+                width: 55,
+                blur: false,
+              ),
+              buildPositionedHearts(left: 91, bottom: 90),
             ]),
             Container(
               height: MediaQuery.of(context).size.height * 0.3,
@@ -199,15 +209,19 @@ class _MatchDialogPageState extends State<MatchDialogPage> {
     );
   }
 
-  Widget buildPositionedHearts(
-      {double? top,
-      double? right,
-      double? left,
-      double? bottom,
-      Color? color}) {
+  Widget buildPositionedHearts({
+    double? top,
+    double? right,
+    double? left,
+    double? bottom,
+    Color? color,
+    double? height,
+    double? width,
+    bool blur = true,
+  }) {
     return AnimatedPositioned(
-      height: 45,
-      width: 45,
+      height: height ?? 45,
+      width: width ?? 45,
       duration: duration,
       right: right == null ? null : right * valueAnimate,
       top: top == null ? null : top * valueAnimate,
@@ -221,12 +235,19 @@ class _MatchDialogPageState extends State<MatchDialogPage> {
           height: 10,
           width: 10,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100),
-            color: color ?? Colors.white,
-          ),
+              borderRadius: BorderRadius.circular(100),
+              color: color ?? Colors.white,
+              boxShadow: [
+                if (blur)
+                  BoxShadow(
+                      color: Colors.grey.shade200,
+                      spreadRadius: 2,
+                      blurRadius: 2)
+              ]),
           child: Icon(
             Icons.favorite,
             color: kPrimaryColor,
+            size: 30,
           ),
         ),
       ),
