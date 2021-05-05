@@ -1,6 +1,6 @@
-
 import 'package:bewp_life/view/chats/chat-page.dart';
 import 'package:bewp_life/view/chats/matches-chat.dart';
+import 'package:bewp_life/view/edit-profile/profile-form.dart';
 import 'package:bewp_life/view/home-screens/match-dialog.dart';
 import 'package:bewp_life/view/startup-screens/new-password.dart';
 import 'package:bewp_life/view/startup-screens/number-verify.dart';
@@ -21,4 +21,5 @@ Map<String, Widget Function(BuildContext context)> routes = {
   HomePage.Route: (context) => HomePage(),
   ChatPage.Route: (context) => ChatPage(),
   MatchDialogPage.Route: (context) => MatchDialogPage(),
+  ProfileFormPage.Route: (context) => ProfileFormPage(),
 };

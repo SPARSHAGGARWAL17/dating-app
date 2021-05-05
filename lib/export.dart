@@ -6,3 +6,4 @@ export 'package:bewp_life/view/startup-screens/login-email.dart';
 export 'package:bewp_life/view/startup-screens/welcome-page.dart';
 export 'package:bewp_life/view/startup-screens/registerApp.dart';
 export './view/home-screens/home-page.dart';
+export 'package:bewp_life/extensions/extension.dart';

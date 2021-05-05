@@ -2,7 +2,8 @@ import 'dart:math' as math;
 import 'package:bewp_life/model/cards.dart';
 import 'package:bewp_life/view/chats/matches-chat.dart';
 import 'package:bewp_life/view/home-screens/match-dialog.dart';
-import 'package:bewp_life/view/profile/profile-form.dart';
+import 'package:bewp_life/view/edit-profile/profile-form.dart';
+import 'package:bewp_life/view/profile/profile-page.dart';
 import '../cards/card-animation.dart';
 import '../../export.dart';
 
@@ -260,7 +261,7 @@ class _HomePageState extends State<HomePage>
             )
           : _index == 1
               ? MatchesChatPage()
-              : ProfileFormPage(),
+              : ProfilePage(),
     );
   }
 

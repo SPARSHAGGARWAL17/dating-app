@@ -1,0 +1,411 @@
+import 'dart:io';
+import 'dart:async';
+
+import 'package:bewp_life/model/media.dart';
+import 'package:bewp_life/view/edit-profile/profile-popup.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:animations/animations.dart' show OpenContainer;
+
+class ProfileFormPage extends StatefulWidget {
+  static const Route = '/profile-form-page';
+  @override
+  _ProfileFormPageState createState() => _ProfileFormPageState();
+}
+
+class _ProfileFormPageState extends State<ProfileFormPage> {
+  // PlatformFile file;
+  bool uploading = false;
+  bool dragging = false;
+  String currentGender = 'Male';
+  // Future<String> getVideoThumbnail(String videoUrl) async {
+  // Directory directory = await getTemporaryDirectory();
+  // var videoPath = directory.path;
+  // print('video path == $videoPath');
+  // var path;
+  // try {
+  //   path = await VideoThumbnail.thumbnailFile(
+  //     video: videoUrl,
+  //     imageFormat: ImageFormat.JPEG,
+  //     thumbnailPath: videoPath,
+  //     maxWidth: 128,
+  //     quality: 25,
+  //   );
+  // } catch (error) {
+  //   print(error);
+  // }
+  // print('thumbnail path == ${path.runtimeType}');
+  // return path;
+  // }
+
+  // Future<PlatformFile> pickFile() async {
+  //   FilePickerResult result = await FilePicker.platform.pickFiles(
+  //     allowMultiple: false,
+  //     type: FileType.custom,
+  //     allowedExtensions: ['mp4', 'jpg', 'jpeg', 'png'],
+  //   );
+  //   if (result != null) {
+  //     file = result.files[0];
+  //   }
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: false,
+        elevation: 0,
+        title: Text(
+          'Profile Form',
+          style: Theme.of(context).textTheme.headline1!.copyWith(
+                fontWeight: FontWeight.w600,
+                fontSize: 25,
+                color: Colors.black,
+              ),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: Icon(Icons.arrow_back_ios),
+          color: Colors.black,
+        ),
+      ),
+      body: SafeArea(
+        child: InkWell(
+          onTap: () {
+            setState(() {
+              dragging = false;
+            });
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 25, vertical: 8),
+            child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  Container(
+                      height: MediaQuery.of(context).size.height * 0.45,
+                      // padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: GridView.builder(
+                        physics: ClampingScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          childAspectRatio: 2 / 3,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                        ),
+                        itemCount: mediaList.length,
+                        itemBuilder: (context, index) {
+                          // if (index == mediaList.length) {
+                          //   return InkWell(
+                          //     onTap: uploading
+                          //         ? null
+                          //         : () async {
+                          //             await pickFile();
+                          //             if (file != null) {
+                          //               print('uploading-file');
+                          //               setState(() {
+                          //                 uploading = true;
+                          //               });
+                          //               BlocProvider.of<UserMediaCubit>(
+                          //                       context)
+                          //                   .postUserMedia(File(file.path))
+                          //                   .then((value) {
+                          //                 BlocProvider.of<UserMediaCubit>(
+                          //                         context)
+                          //                     .loadUserMedia();
+                          //                 setState(() {
+                          //                   uploading = false;
+                          //                 });
+                          //               });
+                          //             }
+                          //           },
+                          //     child: Container(
+                          //       decoration: BoxDecoration(
+                          //         color: Colors.grey,
+                          //         borderRadius: BorderRadius.circular(5),
+                          //       ),
+                          //       child: uploading
+                          //           ? CupertinoActivityIndicator()
+                          //           : Icon(Icons.add, color: Colors.black),
+                          //       alignment: Alignment.center,
+                          //     ),
+                          //   );
+                          // }
+                          return OpenContainer(
+                            openBuilder: (context, action) {
+                              return ProfilePopUpPage(mediaList[index]);
+                            },
+                            closedBuilder: (context, action) {
+                              if (dragging)
+                                return DragTarget<Media>(
+                                  onAccept: (data) {
+                                    var initImage = mediaList[index];
+                                    var initIndex =
+                                        mediaList.indexOf(initImage);
+                                    var finalIndex = mediaList.indexOf(data);
+                                    mediaList[initIndex] = data;
+                                    mediaList[finalIndex] = initImage;
+                                    dragging = false;
+                                    setState(() {});
+                                    // BlocProvider.of<UserMediaCubit>(context)
+                                    //     .rearrangeMedia(mediaList);
+                                  },
+                                  builder:
+                                      (context, candidateData, rejectedData) {
+                                    if (mediaList[index]
+                                        .longURL
+                                        .endsWith('.mp4')) {
+                                      return buildVideoThumbnail(
+                                          mediaList, index);
+                                    }
+                                    return Container(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(5),
+                                        child: buildImage(index),
+                                      ),
+                                    );
+                                  },
+                                );
+                              return InkWell(
+                                onTap: action,
+                                child: Draggable<Media>(
+                                  childWhenDragging: Container(
+                                    child: Text('dragging'),
+                                  ),
+                                  onDragEnd: (details) {
+                                    setState(() {
+                                      dragging = false;
+                                    });
+                                    print('Drag-end');
+                                    print(details);
+                                  },
+                                  onDragCompleted: () {
+                                    setState(() {
+                                      dragging = false;
+                                    });
+                                    print('drag-completed');
+                                  },
+                                  onDragUpdate: (details) {
+                                    setState(() {
+                                      dragging = true;
+                                    });
+                                    print('drag-update');
+                                  },
+                                  data: mediaList[index],
+                                  feedback: Container(
+                                    height: 200,
+                                    width: 140,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(5),
+                                      child: mediaList[index]
+                                              .longURL
+                                              .endsWith('.mp4')
+                                          ? buildVideoThumbnail(
+                                              mediaList, index)
+                                          : buildImage(index),
+                                    ),
+                                  ),
+                                  child: Container(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(5),
+                                      child: mediaList[index]
+                                              .longURL
+                                              .endsWith('.mp4')
+                                          ? buildVideoThumbnail(
+                                              mediaList, index)
+                                          : buildImage(index),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      )
+                      // else {
+                      //   return Center(child: CupertinoActivityIndicator());
+                      // }
+                      ),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextFormField(
+                          cursorColor: Colors.black,
+                          decoration: InputDecoration(
+                            hintText: 'Full Name',
+                            focusColor: Colors.black,
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                          ),
+                        ),
+                        TextFormField(
+                          cursorColor: Colors.black,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: 'Age',
+                            focusColor: Colors.black,
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Gender',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(color: Colors.grey),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                width: 220,
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: ['Male', 'Female']
+                                        .map(
+                                          (e) => InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                currentGender = e;
+                                              });
+                                            },
+                                            child: Container(
+                                              height: 40,
+                                              width: 100,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                '$e',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: currentGender == e
+                                                      ? Colors.white
+                                                      : Colors.black,
+                                                ),
+                                              ),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(3),
+                                                color: currentGender == e
+                                                    ? Colors.black
+                                                    : Colors.grey[400],
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                        .toList()),
+                              ),
+                            ],
+                          ),
+                        ),
+                        TextFormField(
+                          cursorColor: Colors.black,
+                          decoration: InputDecoration(
+                            hintText: 'Cost',
+                            focusColor: Colors.black,
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        Center(
+                          child: TextButton(
+                            onPressed: () {
+                              // BlocProvider.of<UserMediaCubit>(context)
+                              //     .loadUserMedia();
+                            },
+                            child: Container(
+                              width: 120,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Other Details',
+                                    style: TextStyle(
+                                      color: Colors.pink,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.navigate_next,
+                                    color: Colors.pink,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            ElevatedButton(
+                              style: ButtonStyle(
+                                elevation: MaterialStateProperty.all(0),
+                                minimumSize: MaterialStateProperty.all(
+                                  Size(double.infinity, 50),
+                                ),
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.grey),
+                              ),
+                              onPressed: () {},
+                              child: Text('Register'),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Image buildImage(int index) {
+    return Image.asset(
+      '${mediaList[index].longURL}',
+      fit: BoxFit.cover,
+    );
+  }
+
+  FutureBuilder<String> buildVideoThumbnail(List<Media> mediaList, int index) {
+    return FutureBuilder<String>(
+        // future: getVideoThumbnail(
+        //     GlobalConfiguration().get('fileURL') + mediaList[index].longURL),
+        builder: (context, snapshot) {
+      if (snapshot.hasData)
+        return Container(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: Image.file(
+              File(''),
+              fit: BoxFit.fill,
+            ),
+          ),
+        );
+      else {
+        return Container(
+          child: CupertinoActivityIndicator(),
+        );
+      }
+    });
+  }
+}
