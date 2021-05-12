@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:bewp_life/model/cards.dart';
 import 'package:bewp_life/model/media.dart';
 import 'package:bewp_life/view/edit-profile/profile-popup.dart';
-import 'package:dragablegridview_flutter/dragablegridview_flutter.dart';
+import 'package:drag_and_drop_gridview/devdrag.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart' show OpenContainer;
@@ -19,8 +19,15 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
   // PlatformFile file;
   bool uploading = false;
   bool dragging = false;
+  int? pos;
   String currentGender = 'Male';
-  EditSwitchController editSwitchController = EditSwitchController();
+  List<Media> tmpList = [];
+
+  @override
+  void initState() {
+    tmpList = [...mediaList];
+    super.initState();
+  }
   // Future<String> getVideoThumbnail(String videoUrl) async {
   // Directory directory = await getTemporaryDirectory();
   // var videoPath = directory.path;
@@ -93,47 +100,115 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
                   Container(
                       height: MediaQuery.of(context).size.height * 0.45,
                       // padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: DragAbleGridView(
+                      child: DragAndDropGridView(
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: mediaList.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          childAspectRatio: 2 / 3,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                        ),
                         // mainAxisSpacing: 10.0,
                         // crossAxisSpacing: 10.0,
-                        childAspectRatio: 3 / 2,
-                        crossAxisCount: 3,
-                        itemBins: mediaList,
-                        editSwitchController: editSwitchController,
-                        /******************************new parameter*********************************/
-                        isOpenDragAble: true,
-                        animationDuration: 300, //milliseconds
-                        longPressDuration: 600, //milliseconds
-                        /******************************new parameter*********************************/
-                        deleteIcon: new Icon(
-                          Icons.close,
-                          size: 15,
-                        ),
-                        child: (int position) {
-                          return new Container(
-                            height: 200,
-                            margin: EdgeInsets.all(10),
-                            width: 150,
-                            // padding: EdgeInsets.fromLTRB(8.0, 5.0, 8.0, 5.0),
-                            decoration: new BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(new Radius.circular(5.0)),
-                            ),
-                            //因为本布局和删除图标同处于一个Stack内，设置marginTop和marginRight能让图标处于合适的位置
-                            //Because this layout and the delete_Icon are in the same Stack, setting marginTop and marginRight will make the icon in the proper position.
-                            child: new ClipRRect(
-                              borderRadius: BorderRadius.circular(5),
-                              child: buildImage(position),
+                        onReorder: (oldIndex, newIndex) {
+                          mediaList = [...tmpList];
+                          int indexOfFirstItem =
+                              mediaList.indexOf(mediaList[oldIndex]);
+                          int indexOfSecondItem =
+                              mediaList.indexOf(mediaList[newIndex]);
+
+                          if (indexOfFirstItem > indexOfSecondItem) {
+                            for (int i = mediaList.indexOf(mediaList[oldIndex]);
+                                i > mediaList.indexOf(mediaList[newIndex]);
+                                i--) {
+                              var tmp = mediaList[i - 1];
+                              mediaList[i - 1] = mediaList[i];
+                              mediaList[i] = tmp;
+                            }
+                          } else {
+                            for (int i = mediaList.indexOf(mediaList[oldIndex]);
+                                i < mediaList.indexOf(mediaList[newIndex]);
+                                i++) {
+                              var tmp = mediaList[i + 1];
+                              mediaList[i + 1] = mediaList[i];
+                              mediaList[i] = tmp;
+                            }
+                          }
+                          tmpList = [...mediaList];
+                          setState(
+                            () {
+                              pos = null;
+                            },
+                          );
+
+                          setState(() {});
+                        },
+                        onWillAccept: (oldIndex, newIndex) {
+                          mediaList = [...tmpList];
+                          int indexOfFirstItem =
+                              mediaList.indexOf(mediaList[oldIndex]);
+                          int indexOfSecondItem =
+                              mediaList.indexOf(mediaList[newIndex]);
+
+                          if (indexOfFirstItem > indexOfSecondItem) {
+                            for (int i = mediaList.indexOf(mediaList[oldIndex]);
+                                i > mediaList.indexOf(mediaList[newIndex]);
+                                i--) {
+                              var tmp = mediaList[i - 1];
+                              mediaList[i - 1] = mediaList[i];
+                              mediaList[i] = tmp;
+                            }
+                          } else {
+                            for (int i = mediaList.indexOf(mediaList[oldIndex]);
+                                i < mediaList.indexOf(mediaList[newIndex]);
+                                i++) {
+                              var tmp = mediaList[i + 1];
+                              mediaList[i + 1] = mediaList[i];
+                              mediaList[i] = tmp;
+                            }
+                          }
+
+                          setState(
+                            () {
+                              pos = newIndex;
+                            },
+                          );
+                          return true;
+                        },
+
+                        itemBuilder: (context, int position) {
+                          return Opacity(
+                            opacity: pos != null
+                                ? pos == position
+                                    ? 0.4
+                                    : 1
+                                : 1,
+                            child: new Container(
+                              height: 200,
+                              // margin: EdgeInsets.all(10),
+                              width: 150,
+                              // padding: EdgeInsets.fromLTRB(8.0, 5.0, 8.0, 5.0),
+                              decoration: new BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(new Radius.circular(5.0)),
+                              ),
+                              //因为本布局和删除图标同处于一个Stack内，设置marginTop和marginRight能让图标处于合适的位置
+                              //Because this layout and the delete_Icon are in the same Stack, setting marginTop and marginRight will make the icon in the proper position.
+                              child: new ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: buildImage(position),
+                              ),
                             ),
                           );
                         },
-                        editChangeListener: () {
-                          setState(() {});
-                          print('dragging');
-                          dragging = false;
-                          setState(() {});
-                          // changeActionState();
-                        },
+                        // editChangeListener: () {
+                        //   setState(() {});
+                        //   print('dragging');
+                        //   dragging = false;
+                        //   setState(() {});
+                        //   // changeActionState();
+                        // },
                       )
                       // else {
                       //   return Center(child: CupertinoActivityIndicator());

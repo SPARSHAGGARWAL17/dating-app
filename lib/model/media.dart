@@ -1,4 +1,4 @@
-import 'package:dragablegridview_flutter/dragablegridviewbin.dart';
+
 
 List<Media> mediaList = [
   Media(id: '1', longURL: 'assets/images/dogs/dog1.jpeg', order: 1),
@@ -9,7 +9,7 @@ List<Media> mediaList = [
   Media(id: '6', longURL: 'assets/images/dogs/dog6.jpeg', order: 6),
 ];
 
-class Media extends DragAbleGridViewBin{
+class Media{
   String id;
   int order;
   String longURL;

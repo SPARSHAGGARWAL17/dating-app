@@ -1,7 +1,6 @@
-import 'package:dragablegridview_flutter/dragablegridview_flutter.dart';
-import 'package:dragablegridview_flutter/dragablegridviewbin.dart';
 
-class MatchCard  extends DragAbleGridViewBin{
+
+class MatchCard  {
   String imageUrl;
   String breedName;
   String name;
