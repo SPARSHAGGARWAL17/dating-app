@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'dart:async';
 
+import 'package:bewp_life/model/cards.dart';
 import 'package:bewp_life/model/media.dart';
 import 'package:bewp_life/view/edit-profile/profile-popup.dart';
+import 'package:dragablegridview_flutter/dragablegridview_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart' show OpenContainer;
@@ -18,6 +20,7 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
   bool uploading = false;
   bool dragging = false;
   String currentGender = 'Male';
+  EditSwitchController editSwitchController = EditSwitchController();
   // Future<String> getVideoThumbnail(String videoUrl) async {
   // Directory directory = await getTemporaryDirectory();
   // var videoPath = directory.path;
@@ -74,6 +77,8 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
       ),
       body: SafeArea(
         child: InkWell(
+          splashColor: Colors.white,
+          onLongPress: () {},
           onTap: () {
             setState(() {
               dragging = false;
@@ -88,142 +93,46 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
                   Container(
                       height: MediaQuery.of(context).size.height * 0.45,
                       // padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: GridView.builder(
-                        physics: ClampingScrollPhysics(),
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          childAspectRatio: 2 / 3,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
+                      child: DragAbleGridView(
+                        // mainAxisSpacing: 10.0,
+                        // crossAxisSpacing: 10.0,
+                        childAspectRatio: 3 / 2,
+                        crossAxisCount: 3,
+                        itemBins: mediaList,
+                        editSwitchController: editSwitchController,
+                        /******************************new parameter*********************************/
+                        isOpenDragAble: true,
+                        animationDuration: 300, //milliseconds
+                        longPressDuration: 600, //milliseconds
+                        /******************************new parameter*********************************/
+                        deleteIcon: new Icon(
+                          Icons.close,
+                          size: 15,
                         ),
-                        itemCount: mediaList.length,
-                        itemBuilder: (context, index) {
-                          // if (index == mediaList.length) {
-                          //   return InkWell(
-                          //     onTap: uploading
-                          //         ? null
-                          //         : () async {
-                          //             await pickFile();
-                          //             if (file != null) {
-                          //               print('uploading-file');
-                          //               setState(() {
-                          //                 uploading = true;
-                          //               });
-                          //               BlocProvider.of<UserMediaCubit>(
-                          //                       context)
-                          //                   .postUserMedia(File(file.path))
-                          //                   .then((value) {
-                          //                 BlocProvider.of<UserMediaCubit>(
-                          //                         context)
-                          //                     .loadUserMedia();
-                          //                 setState(() {
-                          //                   uploading = false;
-                          //                 });
-                          //               });
-                          //             }
-                          //           },
-                          //     child: Container(
-                          //       decoration: BoxDecoration(
-                          //         color: Colors.grey,
-                          //         borderRadius: BorderRadius.circular(5),
-                          //       ),
-                          //       child: uploading
-                          //           ? CupertinoActivityIndicator()
-                          //           : Icon(Icons.add, color: Colors.black),
-                          //       alignment: Alignment.center,
-                          //     ),
-                          //   );
-                          // }
-                          return OpenContainer(
-                            openBuilder: (context, action) {
-                              return ProfilePopUpPage(mediaList[index]);
-                            },
-                            closedBuilder: (context, action) {
-                              if (dragging)
-                                return DragTarget<Media>(
-                                  onAccept: (data) {
-                                    var initImage = mediaList[index];
-                                    var initIndex =
-                                        mediaList.indexOf(initImage);
-                                    var finalIndex = mediaList.indexOf(data);
-                                    mediaList[initIndex] = data;
-                                    mediaList[finalIndex] = initImage;
-                                    dragging = false;
-                                    setState(() {});
-                                    // BlocProvider.of<UserMediaCubit>(context)
-                                    //     .rearrangeMedia(mediaList);
-                                  },
-                                  builder:
-                                      (context, candidateData, rejectedData) {
-                                    if (mediaList[index]
-                                        .longURL
-                                        .endsWith('.mp4')) {
-                                      return buildVideoThumbnail(
-                                          mediaList, index);
-                                    }
-                                    return Container(
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(5),
-                                        child: buildImage(index),
-                                      ),
-                                    );
-                                  },
-                                );
-                              return InkWell(
-                                onTap: action,
-                                child: Draggable<Media>(
-                                  childWhenDragging: Container(
-                                    child: Text('dragging'),
-                                  ),
-                                  onDragEnd: (details) {
-                                    setState(() {
-                                      dragging = false;
-                                    });
-                                    print('Drag-end');
-                                    print(details);
-                                  },
-                                  onDragCompleted: () {
-                                    setState(() {
-                                      dragging = false;
-                                    });
-                                    print('drag-completed');
-                                  },
-                                  onDragUpdate: (details) {
-                                    setState(() {
-                                      dragging = true;
-                                    });
-                                    print('drag-update');
-                                  },
-                                  data: mediaList[index],
-                                  feedback: Container(
-                                    height: 200,
-                                    width: 140,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(5),
-                                      child: mediaList[index]
-                                              .longURL
-                                              .endsWith('.mp4')
-                                          ? buildVideoThumbnail(
-                                              mediaList, index)
-                                          : buildImage(index),
-                                    ),
-                                  ),
-                                  child: Container(
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(5),
-                                      child: mediaList[index]
-                                              .longURL
-                                              .endsWith('.mp4')
-                                          ? buildVideoThumbnail(
-                                              mediaList, index)
-                                          : buildImage(index),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
+                        child: (int position) {
+                          return new Container(
+                            height: 200,
+                            margin: EdgeInsets.all(10),
+                            width: 150,
+                            // padding: EdgeInsets.fromLTRB(8.0, 5.0, 8.0, 5.0),
+                            decoration: new BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(new Radius.circular(5.0)),
+                            ),
+                            //因为本布局和删除图标同处于一个Stack内，设置marginTop和marginRight能让图标处于合适的位置
+                            //Because this layout and the delete_Icon are in the same Stack, setting marginTop and marginRight will make the icon in the proper position.
+                            child: new ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: buildImage(position),
+                            ),
                           );
+                        },
+                        editChangeListener: () {
+                          setState(() {});
+                          print('dragging');
+                          dragging = false;
+                          setState(() {});
+                          // changeActionState();
                         },
                       )
                       // else {

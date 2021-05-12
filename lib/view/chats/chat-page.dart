@@ -10,7 +10,9 @@ class ChatPage extends StatefulWidget {
   _ChatPageState createState() => _ChatPageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
+  GlobalKey<AnimatedListState> listKey = GlobalKey();
+  TextEditingController chatMessage = TextEditingController();
   @override
   Widget build(BuildContext context) {
     var match = ModalRoute.of(context)!.settings.arguments;
@@ -92,14 +94,15 @@ class _ChatPageState extends State<ChatPage> {
                 //color: Colors.red,
                 // height: getDeviceSize(context).height * 0.7,
                 child: ListView.separated(
+                  key: listKey,
                   reverse: true,
+                  itemCount: chats.length,
                   physics: BouncingScrollPhysics(),
                   separatorBuilder: (context, index) {
                     return SizedBox(
                       height: 0,
                     );
                   },
-                  itemCount: chats.length,
                   itemBuilder: (context, index) {
                     return buildChatBubble(
                       index,
@@ -145,6 +148,10 @@ class _ChatPageState extends State<ChatPage> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextField(
+                          onChanged: (value) {
+                            setState(() {});
+                          },
+                          controller: chatMessage,
                           decoration: InputDecoration(
                             fillColor: Colors.grey.shade200,
                             filled: true,
@@ -152,23 +159,46 @@ class _ChatPageState extends State<ChatPage> {
                         ),
                       ), //TODO add functionality
                     )),
-                    Container(
-                      height: 50,
-                      width: 60,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(0),
-                            bottomRight: Radius.circular(40),
-                            topLeft: Radius.circular(0),
-                            topRight: Radius.circular(40)),
-                        color: Color(0xFFFFB6C1),
-                      ),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Icon(
-                          Icons.send,
-                          color: Colors.pink,
-                          size: 25,
+                    InkWell(
+                      onTap: chatMessage.text.isEmpty
+                          ? null
+                          : () {
+                              print('pressed');
+                              chats.insert(
+                                0,
+                                Chat(
+                                  imageUrl: 'assets/images/dogs/dog1.jpeg',
+                                  message: chatMessage.text,
+                                  time: '15:00 PM',
+                                  byMe: true,
+                                  animationController: AnimationController(
+                                    vsync: this,
+                                    duration: Duration(milliseconds: 450),
+                                  ),
+                                ),
+                              );
+                              setState(() {});
+                              chatMessage.clear();
+                              chats[0].animationController!.forward();
+                            },
+                      child: Container(
+                        height: 50,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(0),
+                              bottomRight: Radius.circular(40),
+                              topLeft: Radius.circular(0),
+                              topRight: Radius.circular(40)),
+                          color: Color(0xFFFFB6C1),
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Icon(
+                            Icons.send,
+                            color: Colors.pink,
+                            size: 25,
+                          ),
                         ),
                       ),
                     ),
@@ -187,74 +217,86 @@ class _ChatPageState extends State<ChatPage> {
       mainAxisAlignment:
           chats[index].byMe ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
-        Container(
-          padding: EdgeInsets.all(0),
-          child: Row(
-            children: [
-              if (!chats[index].byMe &&
-                      index + 1 != chats.length &&
-                      chats[index + 1].byMe != chats[index].byMe ||
-                  index == chats.length - 1)
-                CircleAvatar(
-                  backgroundImage:
-                      AssetImage(match is Matches ? match.image : ''),
-                  radius: 18,
-                ),
-              if (!chats[index].byMe &&
-                  index + 1 != chats.length &&
-                  chats[index + 1].byMe == chats[index].byMe)
-                SizedBox(
-                  width: 36,
-                ),
-              // if (index == chats.length - 1)
-              //   SizedBox(
-              //     width: 36,
-              //   ),
-              SizedBox(
-                width: 15,
+        ScaleTransition(
+          scale: chats[index].animationController!,
+          alignment: Alignment.bottomRight,
+          child: InkWell(
+            onTap: () {
+              chats[index].showTime = !chats[index].showTime;
+              setState(() {});
+            },
+            child: Container(
+              padding: EdgeInsets.all(0),
+              child: Row(
+                children: [
+                  if (!chats[index].byMe)
+                    CircleAvatar(
+                      backgroundImage:
+                          AssetImage(match is Matches ? match.image : ''),
+                      radius: 18,
+                    ),
+                  // if (!chats[index].byMe &&
+                  //     index + 1 != chats.length &&
+                  //     chats[index + 1].byMe == chats[index].byMe)
+                  //   SizedBox(
+                  //     width: 36,
+                  //   ),
+                  // if (index == chats.length - 1)
+                  //   SizedBox(
+                  //     width: 36,
+                  //   ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  LimitedBox(
+                    maxWidth: getDeviceSize(context).width * 0.7,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              color: chats[index].byMe
+                                  ? kPrimaryColor
+                                  : kGreyColor,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10),
+                                bottomLeft: chats[index].byMe
+                                    ? Radius.circular(10)
+                                    : Radius.circular(0),
+                                bottomRight: !chats[index].byMe
+                                    ? Radius.circular(10)
+                                    : Radius.circular(0),
+                              )),
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            // duration: Duration(milliseconds: 500),
+                            child: Text(
+                              chats[index].message,
+                              style: buildTextStyle(
+                                  color: chats[index].byMe
+                                      ? Colors.white
+                                      : Color(0xff062743)),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        if (chats[index].showTime)
+                          Text(
+                            chats[index].time,
+                            style: buildTextStyle(
+                              size: 12,
+                              color: kGreyColor,
+                            ),
+                          ),
+                      ],
+                    ),
+                  )
+                ],
               ),
-              LimitedBox(
-                maxWidth: getDeviceSize(context).width * 0.7,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Container(
-                      // width: getDeviceSize(context).width * 0.7,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: chats[index].byMe ? kPrimaryColor : kGreyColor,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10),
-                            bottomLeft: chats[index].byMe
-                                ? Radius.circular(10)
-                                : Radius.circular(0),
-                            bottomRight: !chats[index].byMe
-                                ? Radius.circular(10)
-                                : Radius.circular(0),
-                          )),
-                      child: Text(
-                        chats[index].message,
-                        style: buildTextStyle(
-                            color: chats[index].byMe
-                                ? Colors.white
-                                : Color(0xff062743)),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      chats[index].time,
-                      style: buildTextStyle(
-                        size: 12,
-                        color: kGreyColor,
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
+            ),
           ),
         )
       ],

@@ -72,6 +72,7 @@ class _OtpVerifyPageState extends State<OtpVerifyPage> {
                 selectedColor: kPrimaryColor,
                 activeColor: Colors.black,
               ),
+              showCursor: false,
               animationDuration: Duration(milliseconds: 300),
               enableActiveFill: false,
               onChanged: (value) {},

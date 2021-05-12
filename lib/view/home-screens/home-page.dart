@@ -1,8 +1,11 @@
 import 'dart:math' as math;
+import 'package:animations/animations.dart';
 import 'package:bewp_life/model/cards.dart';
+import 'package:bewp_life/utils/custom-bottom-bar.dart';
 import 'package:bewp_life/view/chats/matches-chat.dart';
 import 'package:bewp_life/view/home-screens/match-dialog.dart';
 import 'package:bewp_life/view/edit-profile/profile-form.dart';
+import 'package:bewp_life/view/home-screens/single-page-card.dart';
 import 'package:bewp_life/view/profile/profile-page.dart';
 import '../cards/card-animation.dart';
 import '../../export.dart';
@@ -49,7 +52,7 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kGreyColor,
+      backgroundColor: Colors.white,
       // appBar: AppBar(
       //   automaticallyImplyLeading: false,
       //   backgroundColor: Colors.transparent,
@@ -60,40 +63,38 @@ class _HomePageState extends State<HomePage>
       //
       //   ),
       // ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedItemColor: kPrimaryColor,
-        elevation: 10.0,
+      bottomNavigationBar: CustomBottomBar(
+        selectedIndex: _index,
+        items: [
+          BottomBarItem(
+            icon: Image.asset(
+              'assets/images/search.png',
+              color: _index == 0 ? Colors.white : null,
+            ),
+            title: Text('Explore'),
+            activeColor: kPrimaryColor,
+          ),
+          BottomBarItem(
+            icon: Image.asset(
+              'assets/images/message.png',
+              color: _index == 1 ? Colors.white : null,
+            ),
+            title: Text('Chats'),
+            activeColor: kPrimaryColor,
+          ),
+          BottomBarItem(
+            icon: Image.asset(
+              'assets/images/person.png',
+              color: _index == 2 ? Colors.white : null,
+            ),
+            title: Text('Profile'),
+            activeColor: kPrimaryColor,
+          ),
+        ],
         onTap: (value) {
           _index = value;
           setState(() {});
         },
-        currentIndex: _index,
-        items: [
-          new BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-
-            label: 'EXPLORE',
-
-            // buildTextStyle(size: 10, color: Colors.black.withOpacity(1)),
-            // ),
-          ),
-          new BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'CHAT',
-            //   style:
-            //       buildTextStyle(size: 10, color: Colors.black.withOpacity(1)),
-            // ),
-          ),
-          new BottomNavigationBarItem(
-            icon: Icon(Icons.account_box),
-            label: 'PROFILE',
-            //   style:
-            //       buildTextStyle(size: 10, color: Colors.black.withOpacity(1)),
-            // ),
-          ),
-        ],
       ),
       body: _index == 0
           ? SafeArea(
@@ -101,7 +102,7 @@ class _HomePageState extends State<HomePage>
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Colors.white,
+                      kGreyColor.withOpacity(0.5),
                       kGreyColor,
                     ],
                     begin: Alignment.topCenter,
@@ -126,7 +127,7 @@ class _HomePageState extends State<HomePage>
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                     color: Colors.white.withOpacity(0.6),
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
                                   height: 30,
                                   width: 98,
@@ -153,13 +154,15 @@ class _HomePageState extends State<HomePage>
                               InkWell(
                                 onTap: () {}, //TODO Add button
                                 child: Container(
+                                  alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                     color: Colors.white.withOpacity(0.6),
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
                                   height: 30,
                                   width: 81,
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(
                                         Icons.filter_alt,
@@ -209,8 +212,20 @@ class _HomePageState extends State<HomePage>
                               minWidth: getDeviceSize(context).width * 0.75,
                               minHeight: getDeviceSize(context).height * 0.6,
                               cardBuilder: (context, index) {
-                                return buildSingleCard(
-                                    false, context, matchCard[index]);
+                                return OpenContainer(
+                                  openShape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(0)),
+                                  closedShape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  transitionDuration:
+                                      Duration(milliseconds: 800),
+                                  closedBuilder: (context, action) =>
+                                      buildSingleCard(
+                                          false, context, matchCard[index]),
+                                  openBuilder: (context, action) {
+                                    return SingleCardPage();
+                                  },
+                                );
                               },
                               totalNum: matchCard.length,
                             )

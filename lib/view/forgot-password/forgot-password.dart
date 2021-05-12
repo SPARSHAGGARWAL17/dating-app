@@ -82,7 +82,7 @@ class ForgotPasswordPage extends StatelessWidget {
                           color: Colors.grey[200],
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        child: Image.asset('assets/images/india.png'),
+                        child: Text('+91'),
                       ),
                     ),
                   ),

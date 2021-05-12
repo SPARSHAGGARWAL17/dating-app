@@ -12,6 +12,7 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
   CarouselController carouselController = CarouselController();
+  int currentPage = 0;
 
   @override
   void dispose() {
@@ -31,8 +32,13 @@ class _WelcomePageState extends State<WelcomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               CarouselSlider(
-                carouselController: CarouselController(),
+                carouselController: carouselController,
                 options: CarouselOptions(
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      currentPage = index;
+                    });
+                  },
                   initialPage: 0,
                   autoPlay: true,
                   viewportFraction: 1,
@@ -63,6 +69,26 @@ class _WelcomePageState extends State<WelcomePage> {
                   //   style: TextStyle(fontSize: 16.0),
                   // )),
                 }).toList(),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: getDeviceSize(context).width * 0.4,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for (var i = 0; i < 6; i++)
+                      Container(
+                        margin: EdgeInsets.all(3),
+                        child: CircleAvatar(
+                          radius: 5,
+                          backgroundColor:
+                              currentPage == i ? kPrimaryColor : kGreyColor,
+                        ),
+                      ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 45,

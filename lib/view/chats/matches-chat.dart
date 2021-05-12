@@ -9,46 +9,86 @@ class MatchesChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-            child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(17.0),
-          child: Text(
-            'Matches',
-            style: buildTextStyle(size: 22),
-          ),
-        ),
-        SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          child: Row(
-              children: kMatches
-                  .map((e) => circleProfilePhoto(e.image, 30))
-                  .toList()),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 10, left: 20, top: 20),
-          child: Text(
-            "Chats",
-            style: buildTextStyle(size: 22),
-          ),
-        ),
-        Container(
-          height: getDeviceSize(context).height * 0.628,
-          child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: kMatches
-                  .map((e) => buildScrollChatView(match: e, context: context))
-                  .toList(),
+      body: SafeArea(
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xffFFB6C1),
+                Color(0xffFFDDD1),
+              ],
+              begin: Alignment.centerLeft,
+              end: Alignment.topRight,
             ),
           ),
-        )
-      ],
-    )));
+          child: Column(
+            children: [
+              Container(
+                height: getDeviceSize(context).height * 0.18,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(17.0),
+                      child: Text(
+                        'Matches',
+                        style: buildTextStyle(size: 25),
+                      ),
+                    ),
+                    SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                          children: kMatches
+                              .map((e) => circleProfilePhoto(e.image, 30))
+                              .toList()),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  ),
+                  color: Colors.white,
+                ),
+                // margin:
+                //     EdgeInsets.only(top: getDeviceSize(context).height * 0.18),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(bottom: 10, left: 20, top: 20),
+                      child: Text(
+                        "Chats",
+                        style: buildTextStyle(size: 25),
+                      ),
+                    ),
+                    Container(
+                      // height: getDeviceSize(context).height * 0.628,
+                      child: SingleChildScrollView(
+                        physics: BouncingScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          children: kMatches
+                              .map((e) => buildScrollChatView(
+                                  match: e, context: context))
+                              .toList(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ).expand
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Padding buildScrollChatView({
@@ -95,9 +135,21 @@ class MatchesChatPage extends StatelessWidget {
   Padding circleProfilePhoto(String image, double radius) {
     return Padding(
       padding: const EdgeInsets.only(right: 10, left: 10),
-      child: CircleAvatar(
-        backgroundImage: AssetImage(image),
-        radius: radius,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black38,
+              blurRadius: 2,
+              spreadRadius: 1,
+            ),
+          ],
+        ),
+        child: CircleAvatar(
+          backgroundImage: AssetImage(image),
+          radius: radius,
+        ),
       ),
     );
   }

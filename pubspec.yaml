@@ -29,6 +29,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_svg: ^0.22.0
   font_awesome_flutter: ^9.0.0
+  dragablegridview_flutter: ^0.2.5
   intl: ^0.17.0
   pin_code_fields: ^7.0.0
 

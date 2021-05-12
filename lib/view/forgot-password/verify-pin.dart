@@ -111,6 +111,7 @@ class _VerifyPinPageState extends State<VerifyPinPage> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     enableActiveFill: false,
+                    showCursor: false,
                   ),
                 ),
                 SizedBox(

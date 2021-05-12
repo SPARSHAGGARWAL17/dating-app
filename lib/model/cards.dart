@@ -1,4 +1,7 @@
-class MatchCard {
+import 'package:dragablegridview_flutter/dragablegridview_flutter.dart';
+import 'package:dragablegridview_flutter/dragablegridviewbin.dart';
+
+class MatchCard  extends DragAbleGridViewBin{
   String imageUrl;
   String breedName;
   String name;
@@ -11,15 +14,15 @@ class MatchCard {
     required this.id,
   });
 
-  @override
-  String toString() {
-    return 'Match-card: $id';
-  }
+  // @override
+  // String toString() {
+  //   return 'Match-card: $id';
+  // }
 
-  @override
-  bool operator ==(other) {
-    return this.toString() == other.toString();
-  }
+  // @override
+  // bool operator ==(other) {
+  //   return this.toString() == other.toString();
+  // }
 
   // TODO: implement hashCode
   int get hashCode => super.hashCode;
