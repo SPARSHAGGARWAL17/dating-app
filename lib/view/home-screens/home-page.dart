@@ -197,6 +197,7 @@ class _HomePageState extends State<HomePage>
                           // for (var i = 0; i < matchCard.length; i++)
                           if (matchCard.isNotEmpty)
                             SwapCard(
+                              orientation: AmassOrientation.TOP,
                               animDuration: 250,
                               cardController: cardController,
                               swipeCompleteCallback: (orientation, index) {

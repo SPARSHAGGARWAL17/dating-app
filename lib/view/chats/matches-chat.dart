@@ -69,7 +69,7 @@ class MatchesChatPage extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      // height: getDeviceSize(context).height * 0.628,
+                      height: getDeviceSize(context).height * 0.6,
                       child: SingleChildScrollView(
                         physics: BouncingScrollPhysics(),
                         scrollDirection: Axis.vertical,

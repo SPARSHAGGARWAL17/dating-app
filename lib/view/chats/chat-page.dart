@@ -144,17 +144,19 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
                     ),
                     Expanded(
                         child: SizedBox(
-                      height: 100,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          onChanged: (value) {
-                            setState(() {});
-                          },
-                          controller: chatMessage,
-                          decoration: InputDecoration(
-                            fillColor: Colors.grey.shade200,
-                            filled: true,
+                      // height: 100,
+                      child: TextField(
+                        onChanged: (value) {
+                          setState(() {});
+                        },
+                        controller: chatMessage,
+                        textCapitalization: TextCapitalization.sentences,
+                        decoration: InputDecoration(
+                          fillColor: Colors.grey.shade200,
+                          filled: true,
+                          hintText: 'Type message..',
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide.none,
                           ),
                         ),
                       ), //TODO add functionality
@@ -173,7 +175,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
                                   byMe: true,
                                   animationController: AnimationController(
                                     vsync: this,
-                                    duration: Duration(milliseconds: 450),
+                                    duration: Duration(milliseconds: 300),
                                   ),
                                 ),
                               );
