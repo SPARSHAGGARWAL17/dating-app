@@ -6,6 +6,7 @@ import 'package:bewp_life/view/chats/chat-page.dart';
 import 'package:bewp_life/view/chats/matches-chat.dart';
 import 'package:bewp_life/view/edit-profile/profile-form.dart';
 import 'package:bewp_life/view/home-screens/match-dialog.dart';
+import 'package:bewp_life/view/profile/update-profile.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         )
       ),
       routes: routes,
-      initialRoute: LoginEmailPage.Route,
+      initialRoute: UpdateProfileImagePage.Route,
     );
   }
 }

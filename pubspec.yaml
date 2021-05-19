@@ -30,6 +30,7 @@ dependencies:
   drag_and_drop_gridview: ^1.0.8
   flutter_svg: ^0.22.0
   font_awesome_flutter: ^9.0.0
+  image_picker: ^0.7.5+2
   intl: ^0.17.0
   pin_code_fields: ^7.0.0
   sliding_up_panel: ^2.0.0+1
