@@ -10,3 +10,11 @@ extension Expansion on Widget {
         flex: flex,
       );
 }
+
+extension Validity on String{
+  bool get isValidEmail {
+      RegExp regex = RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    return regex.hasMatch(this);
+  }
+}

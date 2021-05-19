@@ -1,7 +1,4 @@
-import 'package:bewp_life/const.dart';
-import 'package:bewp_life/view/forgot-password/forgot-password.dart';
-import 'package:bewp_life/view/home-screens/home-page.dart';
-import 'package:bewp_life/view/startup-screens/registerApp.dart';
+import 'package:bewp_life/export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -72,7 +69,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                       child: Transform.translate(
                         offset: Offset(170, 20),
                         child: Image.asset(
-                          'assets/images/girl.png',
+                          'assets/images/dog2.png',
                         ),
                       ),
                     ),
@@ -82,7 +79,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
               Container(
                 height: size.height * 0.7,
                 width: double.infinity,
-                padding: EdgeInsets.all((16)),
+                padding: EdgeInsets.all((25)),
                 margin: EdgeInsets.only(top: size.height * 0.3),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -96,6 +93,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                   child: SingleChildScrollView(
                     physics: ClampingScrollPhysics(),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
@@ -117,20 +115,8 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                           decoration: InputDecoration(
                             labelText: 'Email',
                             labelStyle: buildTextStyle(size: 18),
-                            suffix: isValidEmail(emailController.text)
-                                ? CircleAvatar(
-                                    backgroundColor: Colors.green,
-                                    radius: 10,
-                                    child: Icon(
-                                      Icons.done,
-                                      color: Colors.white,
-                                      size: 10,
-                                    ),
-                                  )
-                                : Container(
-                                    height: 0,
-                                    width: 0,
-                                  ),
+                            suffix: getSuffixTick(
+                                emailController.text.isValidEmail),
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: kGreyColor),
                             ),
@@ -142,17 +128,12 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                           decoration: InputDecoration(
                             labelText: 'Password',
                             labelStyle: buildTextStyle(size: 18),
-                            suffix: IconButton(
+                            suffix: getSuffixEye(
                               onPressed: () {
                                 obscureText = !obscureText;
                                 setState(() {});
                               },
-                              icon: Icon(
-                                Icons.remove_red_eye,
-                                color:
-                                    obscureText ? Colors.grey : kPrimaryColor,
-                                size: 20,
-                              ),
+                              boolValue: obscureText,
                             ),
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: kGreyColor),
@@ -175,43 +156,55 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                           ],
                         ),
                         CustomRaisedButton(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('PROCEED'),
-                              Icon(Icons.reorder),
-                            ],
+                          child: Text(
+                            'PROCEED',
+                            style: buildTextStyle(
+                              size: 20,
+                              color: Colors.white,
+                              weight: FontWeight.bold,
+                            ),
                           ),
                           onPressed: () {
                             Navigator.of(context).pushNamed(HomePage.Route);
                           },
                         ),
                         SizedBox(
-                          height: 8,
+                          height: 25,
                         ),
-                        Text(
-                          'Or Log In With',
-                          style: buildTextStyle(
-                            color: Color(0xff200A4D).withOpacity(0.6),
+                        Center(
+                          child: Text(
+                            'Or Log In With',
+                            style: buildTextStyle(
+                              color: Color(0xff200A4D).withOpacity(0.6),
+                            ),
                           ),
+                        ),
+                        SizedBox(
+                          height: 20,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             buildThirdPartyLogin('google', () {}),
                             SizedBox(
-                              width: 15,
+                              width: 25,
                             ),
                             buildThirdPartyLogin('facebook', () {}),
                           ],
+                        ),
+                        SizedBox(
+                          height: 10,
                         ),
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).pushNamed(RegisterApp.Route);
                           },
                           child: Text(
-                            'Newbie? Create Account',
-                            style: buildTextStyle(),
+                            'Create Account',
+                            style: buildTextStyle(
+                              size: 20,
+                              weight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         // SizedBox(
@@ -250,38 +243,34 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
       ),
     );
   }
-
-  bool isValidEmail(String text) {
-    RegExp regex = RegExp(
-        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-    return regex.hasMatch(text);
-  }
 }
 
 class CustomRaisedButton extends StatelessWidget {
   final Widget child;
   final Function() onPressed;
+  final bool invert;
   const CustomRaisedButton({
     required this.child,
     required this.onPressed,
+    this.invert = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
-        elevation: MaterialStateProperty.all(0),
-        backgroundColor: MaterialStateProperty.all(kBabyPinkColor),
+        elevation: MaterialStateProperty.all(5),
+        shadowColor: MaterialStateProperty.all(Colors.white),
+        backgroundColor:
+            MaterialStateProperty.all(invert ? Colors.white : kBabyPinkColor),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8),
-              topRight: Radius.circular(8),
-              bottomLeft: Radius.circular(8),
-            ),
+            side: BorderSide(
+                color: invert ? kPrimaryColor : Colors.white, width: 3),
+            borderRadius: BorderRadius.circular(15),
           ),
         ),
-        minimumSize: MaterialStateProperty.all(Size(120, 70)),
+        minimumSize: MaterialStateProperty.all(Size(120, 55)),
       ),
       onPressed: onPressed,
       child: child,

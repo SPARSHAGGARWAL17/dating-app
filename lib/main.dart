@@ -22,9 +22,14 @@ class MyApp extends StatelessWidget {
         splashColor: Colors.transparent,
         scaffoldBackgroundColor: Colors.white,
         primarySwatch: Colors.pink,
+        sliderTheme: SliderThemeData(
+          activeTrackColor: kPrimaryColor,
+          thumbColor: Colors.white,
+          inactiveTrackColor: kGreyColor,
+        )
       ),
       routes: routes,
-      initialRoute: HomePage.Route,
+      initialRoute: LoginEmailPage.Route,
     );
   }
 }

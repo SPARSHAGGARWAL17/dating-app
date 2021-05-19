@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const Color kPrimaryColor = Color(0xffFFB6C1);
 const Color kGreyColor = Color(0xffD9DDE2);
 const Color kBabyPinkColor = Color(0xffFFB6C1);
+const Color kDarkPinkColor = Color(0xffFC7D90);
 
 Size getDeviceSize(BuildContext context) {
   return MediaQuery.of(context).size;
@@ -13,12 +14,14 @@ TextStyle buildTextStyle({
   double size = 15,
   FontWeight weight = FontWeight.normal,
   Color color = Colors.black,
+  TextDecoration? decoration,
 }) {
   return TextStyle(
     fontFamily: family,
     fontSize: size,
     fontWeight: weight,
     color: color,
+    decoration: decoration,
   );
 }
 

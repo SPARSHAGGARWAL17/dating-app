@@ -11,8 +11,10 @@ class RegisterApp extends StatefulWidget {
 
 class _RegisterAppState extends State<RegisterApp> {
   DateTime? dob;
+  bool obscureText = true;
+  bool confirmObscureText = true;
   GlobalKey<FormState> formKey = GlobalKey();
-  TextEditingController firstNameController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -25,6 +27,7 @@ class _RegisterAppState extends State<RegisterApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       appBar: AppBar(
         toolbarHeight: 30,
         leading: IconButton(
@@ -41,220 +44,291 @@ class _RegisterAppState extends State<RegisterApp> {
         backgroundColor: Colors.transparent,
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Container(
-              height: 800,
-              child: Form(
-                key: formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text('Register to App',
-                          textAlign: TextAlign.left,
-                          style: buildTextStyle(
-                              weight: FontWeight.w900, size: 24)),
-                    ),
-                    TextFormField(
-                      validator: validator,
-                      controller: firstNameController,
-                      decoration: InputDecoration(
-                        labelText: 'Name',
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: kGreyColor),
-                        ),
-                        labelStyle: buildTextStyle(
-                          color: kGreyColor,
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      validator: validator,
-                      controller: lastNameController,
-                      decoration: InputDecoration(
-                        labelText: 'Last Name',
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: kGreyColor),
-                        ),
-                        labelStyle: buildTextStyle(
-                          color: kGreyColor,
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () async {
-                        dob = await pickDate(dob);
-                        setState(() {});
-                      },
-                      child: Container(
-                        height: 50,
-                        alignment: Alignment.centerLeft,
+        child: Stack(
+          children: [
+            Container(
+              alignment: Alignment.topCenter,
+              // color: Colors.green,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Stack(
+                    children: [
+                      Transform.translate(
+                          offset: Offset(0, 12),
+                          child: Image.asset(
+                            'assets/images/Vector.png',
+                          )),
+                      Transform.translate(
+                          offset: Offset(20, -50),
+                          child: Image.asset('assets/images/kitty.png')),
+                    ],
+                  ).expand,
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Image.asset('assets/images/bubble2.png'),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 15),
                         child: Text(
-                          dob == null
-                              ? 'Date of Birth'
-                              : DateFormat('dd/MM/yyyy')
-                                  .format(dob ?? DateTime.now()),
-                          style: buildTextStyle(color: Colors.black),
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border(bottom: BorderSide(color: kGreyColor)),
+                          'Sign\nUp',
+                          textAlign: TextAlign.center,
+                          style: buildTextStyle(
+                            size: 20,
+                            weight: FontWeight.bold,
+                            color: Color(0xff4718AD),
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Gender',
-                        style: TextStyle(color: kGreyColor, fontSize: 18),
-                      ),
-                    ),
-                    Row(
+                    ],
+                  ).expand,
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 100),
+              padding: const EdgeInsets.only(
+                  top: 25.0, right: 25, left: 25, bottom: 0),
+              height: 800,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.white,
+              ),
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Form(
+                  key: formKey,
+                  child: Container(
+                    height: 700,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        buildGenderButton('Male'),
-                        SizedBox(
-                          width: 10,
+                        // Align(
+                        //   alignment: Alignment.topLeft,
+                        //   child: Text('Register to App',
+                        //       textAlign: TextAlign.left,
+                        //       style: buildTextStyle(
+                        //           weight: FontWeight.w900, size: 24)),
+                        // ),
+                        TextFormField(
+                          validator: validator,
+                          controller: nameController,
+                          onChanged: (value) {
+                            setState(() {});
+                          },
+                          decoration: InputDecoration(
+                            labelText: 'Full Name',
+                            suffix: getSuffixTick(
+                                nameController.text.trim().split(' ').length >=
+                                    2),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: kGreyColor),
+                            ),
+                            labelStyle: buildTextStyle(
+                              color: kGreyColor,
+                            ),
+                          ),
                         ),
-                        buildGenderButton('Female'),
+                        TextFormField(
+                          validator: (value) {
+                            if (value!.isValidEmail) return null;
+                            return 'Invalid Email';
+                          },
+                          onChanged: (value) {
+                            setState(() {});
+                          },
+                          controller: emailController,
+                          decoration: InputDecoration(
+                            suffix: getSuffixTick(
+                                emailController.text.isValidEmail),
+                            labelText: 'Email',
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: kGreyColor),
+                            ),
+                            labelStyle: buildTextStyle(
+                              color: kGreyColor,
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            dob = await pickDate(dob);
+                            setState(() {});
+                          },
+                          child: Container(
+                            height: 50,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              dob == null
+                                  ? 'Date of Birth'
+                                  : DateFormat('dd/MM/yyyy')
+                                      .format(dob ?? DateTime.now()),
+                              style: buildTextStyle(color: Colors.black),
+                            ),
+                            decoration: BoxDecoration(
+                              border:
+                                  Border(bottom: BorderSide(color: kGreyColor)),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            'Gender',
+                            style: TextStyle(color: kGreyColor, fontSize: 18),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            buildButton(
+                              check: currentGender == 'Male',
+                              onPressed: () {
+                                currentGender = 'Male';
+                                setState(() {
+                                  
+                                });
+                              },
+                              title: 'Male',
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                           buildButton(
+                              check: currentGender == 'Female',
+                              onPressed: () {
+                                currentGender = 'Female';
+                                setState(() {});
+                              },
+                              title: 'Female',
+                            ),
+                          ],
+                        ),
+                        TextFormField(
+                          obscureText: obscureText,
+                          controller: passwordController,
+                          validator: validator,
+                          decoration: InputDecoration(
+                            suffix: getSuffixEye(
+                              onPressed: () {
+                                obscureText = !obscureText;
+                                setState(() {});
+                              },
+                              boolValue: obscureText,
+                            ),
+                            labelText: 'Password',
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: kGreyColor)),
+                            labelStyle: buildTextStyle(
+                              color: kGreyColor,
+                            ),
+                          ),
+                        ),
+                        TextFormField(
+                          obscureText: confirmObscureText,
+                          validator: (value) {
+                            if (passwordController.text != value) {
+                              return 'Password didn\'t match';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                              suffix: getSuffixEye(
+                                onPressed: () {
+                                  confirmObscureText = !confirmObscureText;
+                                  setState(() {});
+                                },
+                                boolValue: confirmObscureText,
+                              ),
+                              labelText: 'Confirm Password',
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: kGreyColor)),
+                              labelStyle: buildTextStyle(
+                                color: kGreyColor,
+                              )),
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Yes, I agree to the ',
+                                style: buildTextStyle(
+                                  color: Color(0xff200A4D).withOpacity(0.6),
+                                  size: 15,
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {},
+                                style: ButtonStyle(
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap),
+                                child: Text(
+                                  'Terms & Services.',
+                                  style: buildTextStyle(
+                                    color: Colors.black,
+                                    size: 15,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        CustomRaisedButton(
+                          child: Text(
+                            'PROCEED',
+                            style: buildTextStyle(
+                              size: 20,
+                              color: Colors.white,
+                              weight: FontWeight.bold,
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(HomePage.Route);
+                          },
+                        ),
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Existing User? ',
+                                style: buildTextStyle(
+                                    color: Color(0xff200A4D).withOpacity(0.6),
+                                    size: 15),
+                              ),
+                              TextButton(
+                                onPressed: () {},
+                                style: ButtonStyle(
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap),
+                                child: Text(
+                                  'Log In',
+                                  style: buildTextStyle(
+                                    color: Color(0xff4718AD),
+                                    size: 15,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
-                    TextFormField(
-                      validator: validator,
-                      controller: emailController,
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: kGreyColor)),
-                        labelStyle: buildTextStyle(
-                          color: kGreyColor,
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      obscureText: true,
-                      controller: passwordController,
-                      validator: validator,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: kGreyColor)),
-                        labelStyle: buildTextStyle(
-                          color: kGreyColor,
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      obscureText: true,
-                      validator: (value) {
-                        if (passwordController.text != value) {
-                          return 'Password didn\'t match';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                          labelText: 'Confirm Password',
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: kGreyColor)),
-                          labelStyle: buildTextStyle(
-                            color: kGreyColor,
-                          )),
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        if (formKey.currentState!.validate()) {
-                          // TODO register app here
-                          // TODO add more validation
-                          print('Register app');
-                          Navigator.of(context)
-                              .pushNamed(NumberVerifyPage.Route);
-                        }
-                      },
-                      child: Container(
-                        width: double.maxFinite,
-                        height: 45,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: kPrimaryColor,
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Register',
-                            style: buildTextStyle(
-                                size: 17,
-                                color: Colors.white,
-                                weight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'By registering you agree to ',
-                                style:
-                                    buildTextStyle(color: kGreyColor, size: 12),
-                              ),
-                              TextButton(
-                                onPressed: () {},
-                                style: ButtonStyle(
-                                    tapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap),
-                                child: Text(
-                                  'Terms and Conditions',
-                                  style: buildTextStyle(
-                                      color: kPrimaryColor, size: 12),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'and ',
-                                style:
-                                    buildTextStyle(color: kGreyColor, size: 12),
-                              ),
-                              TextButton(
-                                onPressed: () {},
-                                style: ButtonStyle(
-                                    tapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap),
-                                child: Text(
-                                  'Privacy Policy ',
-                                  style: buildTextStyle(
-                                      color: kPrimaryColor, size: 12),
-                                ),
-                              ),
-                              Text(
-                                'at the Vermo ',
-                                style:
-                                    buildTextStyle(color: kGreyColor, size: 12),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -269,33 +343,5 @@ class _RegisterAppState extends State<RegisterApp> {
     );
     if (_date != null) return _date;
     return date;
-  }
-
-  ElevatedButton buildGenderButton(String title) {
-    return ElevatedButton(
-      style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(
-              currentGender == title ? kPrimaryColor : kGreyColor),
-          minimumSize: MaterialStateProperty.all(Size(94, 30))),
-      onPressed: () {
-        currentGender = title;
-        setState(() {});
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          color: currentGender == title ? kPrimaryColor : kGreyColor,
-        ),
-        height: 30,
-        width: 94,
-        child: Center(
-          child: Text(
-            title,
-            style: buildTextStyle(size: 17),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
-    );
   }
 }
