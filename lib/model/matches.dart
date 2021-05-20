@@ -5,6 +5,10 @@ class Matches {
     required this.image,
     required this.name,
   });
+
+  factory Matches.fromObject(dynamic value) {
+    return Matches(name: value!.name, image: value!.image);
+  }
 }
 
 List<Matches> kMatches = [

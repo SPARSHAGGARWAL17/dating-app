@@ -29,8 +29,8 @@ class MyApp extends StatelessWidget {
           inactiveTrackColor: kGreyColor,
         )
       ),
-      routes: routes,
-      initialRoute: UpdateProfileImagePage.Route,
+      onGenerateRoute: BewpLife.generateRoute,
+      initialRoute: LoginEmailPage.Route,
     );
   }
 }

@@ -96,11 +96,13 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text(
-                          'Log In',
-                          style: buildTextStyle(
-                            weight: FontWeight.bold,
-                            size: 34,
+                        Center(
+                          child: Text(
+                            'Log In',
+                            style: buildTextStyle(
+                              weight: FontWeight.bold,
+                              size: 34,
+                            ),
                           ),
                         ),
                         // SizedBox(

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bewp_life/const.dart';
+import 'package:bewp_life/view/home-screens/home-page.dart';
 import 'package:bewp_life/view/startup-screens/login-email.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -84,7 +85,9 @@ class _UpdateProfileImagePageState extends State<UpdateProfileImagePage> {
                             weight: FontWeight.bold,
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushNamedAndRemoveUntil(HomePage.Route, (route) => false);
+                        },
                       ),
                     ],
                   ),

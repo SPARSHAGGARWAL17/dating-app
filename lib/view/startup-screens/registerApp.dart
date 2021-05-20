@@ -1,3 +1,4 @@
+import 'package:bewp_life/view/profile/update-profile.dart';
 import 'package:bewp_life/view/startup-screens/number-verify.dart';
 import 'package:intl/intl.dart';
 
@@ -293,7 +294,7 @@ class _RegisterAppState extends State<RegisterApp> {
                             ),
                           ),
                           onPressed: () {
-                            Navigator.of(context).pushNamed(HomePage.Route);
+                            Navigator.of(context).pushNamed(UpdateProfileImagePage.Route);
                           },
                         ),
                         Container(

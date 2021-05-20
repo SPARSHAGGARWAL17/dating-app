@@ -5,6 +5,8 @@ import 'package:bewp_life/view/chats/matches-chat.dart';
 import '../../export.dart';
 
 class ChatPage extends StatefulWidget {
+  final Matches match;
+  ChatPage(this.match);
   static const Route = '/person-chat-page';
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -15,7 +17,6 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
   TextEditingController chatMessage = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    var match = ModalRoute.of(context)!.settings.arguments;
     // TODO replace this with current chat state
     // String image = widget.image;
     // String name = widget.name;
@@ -40,7 +41,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
             ),
             buildCircleProfilePicture(
               25,
-              match is Matches ? match.image : '',
+               widget.match.image,
             ), //TODO add profile image accordingly
             SizedBox(
               width: 20,
@@ -52,7 +53,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    match is Matches ? match.name : '', //TODO pass Dog NAme
+ widget.match.name , //TODO pass Dog NAme
                     style: buildTextStyle(size: 18, color: Color(0xFF474747)),
                   ),
                   Text(
@@ -106,9 +107,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
                   itemBuilder: (context, index) {
                     return buildChatBubble(
                       index,
-                      match is Matches
-                          ? match
-                          : Matches(image: '', name: 'Error match'),
+                      widget.match,
                       context,
                     );
                   },
@@ -234,7 +233,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
                   if (!chats[index].byMe)
                     CircleAvatar(
                       backgroundImage:
-                          AssetImage(match is Matches ? match.image : ''),
+                          AssetImage(match is Matches ? widget.match.image : ''),
                       radius: 18,
                     ),
                   // if (!chats[index].byMe &&

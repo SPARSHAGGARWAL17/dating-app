@@ -1,7 +1,6 @@
 import 'package:bewp_life/view/edit-profile/profile-form.dart';
 import 'package:flutter/material.dart';
 import 'package:bewp_life/export.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -150,7 +149,14 @@ List<_ProfileButton> tiles = [
     onPressed: (context) {
       Navigator.of(context).pushNamed(ProfileFormPage.Route);
     },
-    title: 'Edit Profile',
+    title: 'Pet Profile',
+    icon: 'assets/images/profile.png',
+  ),
+  _ProfileButton(
+    onPressed: (context) {
+      Navigator.of(context).pushNamed(RegisterApp.Route);
+    },
+    title: 'Your Profile',
     icon: 'assets/images/profile.png',
   ),
   _ProfileButton(
