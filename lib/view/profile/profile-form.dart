@@ -1,9 +1,13 @@
 import 'dart:io';
 import 'dart:async';
 
+import 'package:bewp_life/const.dart';
 import 'package:bewp_life/model/cards.dart';
+import 'package:bewp_life/model/common/common-model.dart';
 import 'package:bewp_life/model/media.dart';
-import 'package:bewp_life/view/edit-profile/profile-popup.dart';
+import 'package:bewp_life/utils/custom-buttons.dart';
+import 'package:bewp_life/view/profile/profile-popup.dart';
+import 'package:bewp_life/view/startup-screens/login-email.dart';
 import 'package:drag_and_drop_gridview/devdrag.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +23,7 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
   // PlatformFile file;
   bool uploading = false;
   bool dragging = false;
+  int selected = 1;
   int? pos;
   String currentGender = 'Male';
   List<Media> tmpList = [];
@@ -215,7 +220,7 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
                       // }
                       ),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.5,
+                    height: 1100,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -223,24 +228,28 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
                         TextFormField(
                           cursorColor: Colors.black,
                           decoration: InputDecoration(
-                            hintText: 'Full Name',
+                            hintStyle: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .copyWith(color: Colors.grey),
+                            hintText: 'Pet Name',
                             focusColor: Colors.black,
                             focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
+                              borderSide: BorderSide(color: kPrimaryColor),
                             ),
                           ),
                         ),
-                        TextFormField(
-                          cursorColor: Colors.black,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            hintText: 'Age',
-                            focusColor: Colors.black,
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                          ),
-                        ),
+                        // TextFormField(
+                        //   cursorColor: Colors.black,
+                        //   keyboardType: TextInputType.number,
+                        //   decoration: InputDecoration(
+                        //     hintText: 'Age',
+                        //     focusColor: Colors.black,
+                        //     focusedBorder: UnderlineInputBorder(
+                        //       borderSide: BorderSide(color: Colors.black),
+                        //     ),
+                        //   ),
+                        // ),
                         Container(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -256,41 +265,16 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
                                 height: 10,
                               ),
                               Container(
-                                width: 220,
+                                width: 240,
                                 child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: ['Male', 'Female']
-                                        .map(
-                                          (e) => InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                currentGender = e;
-                                              });
-                                            },
-                                            child: Container(
-                                              height: 40,
-                                              width: 100,
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                '$e',
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: currentGender == e
-                                                      ? Colors.white
-                                                      : Colors.black,
-                                                ),
-                                              ),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(3),
-                                                color: currentGender == e
-                                                    ? Colors.black
-                                                    : Colors.grey[400],
-                                              ),
-                                            ),
-                                          ),
-                                        )
+                                        .map((e) => Container(
+                                              margin: EdgeInsets.only(right: 5),
+                                              child: buildButton(
+                                                  title: e, onPressed: () {}),
+                                            ))
                                         .toList()),
                               ),
                             ],
@@ -298,56 +282,138 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
                         ),
                         TextFormField(
                           cursorColor: Colors.black,
+                          maxLines: 5,
                           decoration: InputDecoration(
-                            hintText: 'Cost',
-                            focusColor: Colors.black,
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
+                            hintText: 'Describe your dog',
+                            hintStyle: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .copyWith(color: Colors.grey),
+                            fillColor: kGreyColor.withOpacity(0.2),
+                            filled: true,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(5),
                             ),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(5)),
                           ),
                         ),
-                        SizedBox(height: 5),
-                        Center(
-                          child: TextButton(
-                            onPressed: () {
-                              // BlocProvider.of<UserMediaCubit>(context)
-                              //     .loadUserMedia();
-                            },
-                            child: Container(
-                              width: 120,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Other Details',
-                                    style: TextStyle(
-                                      color: Colors.pink,
-                                      fontSize: 13,
-                                    ),
+                        CustomDropDownButton<int>(
+                          itemBuilder: (value) => Text('Breed $value'),
+                          hintText: 'Select Pet\'s Breed',
+                          title: 'Pet Family',
+                          selected: selected,
+                          onChanged: (value) {
+                            selected = value ?? 0;
+                            setState(() {});
+                          },
+                          items: [1, 2, 3, 4],
+                        ),
+                        CustomDropDownButton<int>(
+                          hintText: 'Pet Height',
+                          title: 'height',
+                          selected: selected,
+                          itemBuilder: (value) => Text('${value * 2}\'\' in.'),
+                          onChanged: (value) {
+                            selected = value ?? 0;
+                            setState(() {});
+                          },
+                          items: [1, 2, 3, 4],
+                        ),
+                        CustomDropDownButton<int>(
+                          hintText: 'Pet Weight',
+                          itemBuilder: (value) => Text('${value * 10} Kg.'),
+                          title: 'Weight',
+                          selected: selected,
+                          onChanged: (value) {
+                            setState(() {});
+                          },
+                          items: [1, 2, 3, 4],
+                        ),
+                        CustomDropDownButton<String>(
+                          hintText: 'Select Pet\'s Breed',
+                          title: 'Pet Family',
+                          selected: '',
+                          itemBuilder: (value) => Text(value),
+                          onChanged: (value) {
+                            setState(() {});
+                          },
+                          items: [
+                            'Brown',
+                            'Black',
+                            'Red',
+                            'White',
+                          ],
+                        ),
+                        // Center(
+                        //   child: TextButton(
+                        //     onPressed: () {
+                        //       // BlocProvider.of<UserMediaCubit>(context)
+                        //       //     .loadUserMedia();
+                        //     },
+                        //     child: Container(
+                        //       width: 120,
+                        //       child: Row(
+                        //         mainAxisAlignment: MainAxisAlignment.center,
+                        //         children: [
+                        //           Text(
+                        //             'Other Details',
+                        //             style: TextStyle(
+                        //               color: Colors.pink,
+                        //               fontSize: 13,
+                        //             ),
+                        //           ),
+                        //           Icon(
+                        //             Icons.navigate_next,
+                        //             color: Colors.pink,
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        Text(
+                          'Is your pet vaccinated?',
+                          style:
+                              Theme.of(context).textTheme.bodyText1!.copyWith(
+                                    color: Colors.grey,
                                   ),
-                                  Icon(
-                                    Icons.navigate_next,
-                                    color: Colors.pink,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                        ),
+                        Row(
+                          children: [
+                            buildButton(title: 'Male', onPressed: () {}),
+                            SizedBox(width: 20),
+                            buildButton(title: 'Female', onPressed: () {}),
+                          ],
+                        ),
+                        CustomDropDownButton<String>(
+                          selected: 'selected',
+                          items: ['Good', 'Fine', 'Average'],
+                          onChanged: (value) {},
+                          title: 'Behavior Tags',
+                          hintText: 'Select',
+                          itemBuilder: (value) => Text(value),
+                        ),
+                        SizedBox(
+                          height: 20,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            ElevatedButton(
-                              style: ButtonStyle(
-                                elevation: MaterialStateProperty.all(0),
-                                minimumSize: MaterialStateProperty.all(
-                                  Size(double.infinity, 50),
+                            CustomRaisedButton(
+                              child: Text(
+                                'Save',
+                                style: buildTextStyle(
+                                  color: Colors.white,
+                                  weight: FontWeight.bold,
                                 ),
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.grey),
                               ),
                               onPressed: () {},
-                              child: Text('Register'),
+                            ),
+                            SizedBox(
+                              height: 10,
                             ),
                           ],
                         )
@@ -391,5 +457,70 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
         );
       }
     });
+  }
+}
+
+class CustomDropDownButton<T> extends StatelessWidget {
+  CustomDropDownButton({
+    Key? key,
+    required this.selected,
+    required this.items,
+    required this.onChanged,
+    required this.title,
+    required this.hintText,
+    required this.itemBuilder,
+  }) : super(key: key);
+
+  final T selected;
+  final List<T> items;
+  final String title;
+  final String hintText;
+  final Widget Function(T value) itemBuilder;
+  final void Function(T? value)? onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                color: Colors.grey,
+              ),
+        ),
+        SizedBox(height: 5),
+        DropdownButtonFormField<T>(
+          onChanged: onChanged,
+          onTap: () {
+            print("Tapped");
+          },
+          items: items
+              .map(
+                (e) => DropdownMenuItem<T>(child: itemBuilder(e), value: e),
+              )
+              .toList(),
+          hint: Text(hintText),
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: kGreyColor.withOpacity(0.2),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                color: kPrimaryColor,
+                width: 2.5,
+              ),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                color: kPrimaryColor,
+                width: 2.5,
+              ),
+            ),
+          ),
+        )
+      ],
+    );
   }
 }

@@ -41,7 +41,12 @@ class MatchesChatPage extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                           children: kMatches
-                              .map((e) => circleProfilePhoto(e.image, 30))
+                              .map(
+                                (e) => Container(
+                                  padding: EdgeInsets.symmetric(vertical: 3),
+                                  child: circleProfilePhoto(e.image, 30),
+                                ),
+                              )
                               .toList()),
                     ),
                   ],
@@ -137,7 +142,7 @@ class MatchesChatPage extends StatelessWidget {
       padding: const EdgeInsets.only(right: 10, left: 10),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(100),
           boxShadow: [
             BoxShadow(
               color: Colors.black38,

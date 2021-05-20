@@ -1,4 +1,4 @@
-import 'package:bewp_life/view/edit-profile/profile-form.dart';
+import 'package:bewp_life/view/profile/profile-form.dart';
 import 'package:flutter/material.dart';
 import 'package:bewp_life/export.dart';
 
