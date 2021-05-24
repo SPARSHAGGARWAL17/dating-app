@@ -1,11 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.bewp_life">
+    package="com.bewplife.bewp_life">
    <application
-        android:label="bewp_life"
+        android:label="Bewp Life"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
+            android:requestLegacyExternalStorage="true"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"

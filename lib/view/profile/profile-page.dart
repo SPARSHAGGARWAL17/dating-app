@@ -6,6 +6,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       body: SafeArea(
         child: Container(
           child: Column(
@@ -23,18 +24,18 @@ class ProfilePage extends StatelessWidget {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(70),
+                            borderRadius: BorderRadius.circular(90),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black38,
-                                offset: Offset(3, 3),
-                                spreadRadius: 3,
-                                blurRadius: 6,
+                                offset: Offset(1, 1),
+                                spreadRadius: 1,
+                                blurRadius: 2,
                               ),
                             ],
                           ),
                           child: CircleAvatar(
-                            radius: 70,
+                            radius: 80,
                             backgroundImage:
                                 AssetImage('assets/images/dogs/dog1.jpeg'),
                           ),
@@ -59,7 +60,10 @@ class ProfilePage extends StatelessWidget {
                               backgroundColor: Color(0xfff8f8f8),
                               child: IconButton(
                                 onPressed: () {},
-                                icon: Image.asset('assets/images/pencil.png'),
+                                icon: Icon(
+                                  Icons.expand_more,
+                                  color: kPrimaryColor,
+                                ),
                               ),
                             ),
                           ),
@@ -71,22 +75,40 @@ class ProfilePage extends StatelessWidget {
                     ),
                     Text(
                       'WOOF WOOF',
-                      style: buildTextStyle(size: 25),
+                      style: buildTextStyle(
+                        size: 26,
+                        weight: FontWeight.w600,
+                      ),
                     ),
-                    Text(
-                      'Owner Name',
-                      style: buildTextStyle(color: kGreyColor),
+                    SizedBox(
+                      height: 15,
                     ),
+                    // Text(
+                    //   'Owner Name',
+                    //   style: buildTextStyle(color: kGreyColor),
+                    // ),
                   ],
                 ),
                 // color: Colors.red,
               ).expandFlex(2),
               Container(
-                padding: EdgeInsets.all(18),
-                // height: getDeviceSize(context).height * 0.5,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    )),
+                padding: EdgeInsets.only(left: 18, right: 18, top: 35),
                 child: ListView.separated(
                   physics: ClampingScrollPhysics(),
                   separatorBuilder: (context, index) {
+                    if (index == 3)
+                      return Divider(
+                        height: 24,
+                        indent: 15,
+                        endIndent: 15,
+                        thickness: 0.8,
+                      );
                     return SizedBox(
                       height: 14,
                     );
@@ -103,16 +125,17 @@ class ProfilePage extends StatelessWidget {
                         height: 50,
                         child: Image.asset(tiles[index].icon),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Color(0xfff8f8f8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                spreadRadius: 0.2,
-                                blurRadius: 1,
-                                offset: Offset(2, 1),
-                              ),
-                            ]),
+                          borderRadius: BorderRadius.circular(10),
+                          color: Color(0xfff8f8f8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              spreadRadius: 0.2,
+                              blurRadius: 1,
+                              offset: Offset(2, 1),
+                            ),
+                          ],
+                        ),
                       ),
                       title: Text(
                         tiles[index].title,

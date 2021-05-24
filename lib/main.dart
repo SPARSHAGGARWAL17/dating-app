@@ -19,18 +19,19 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Bewp Life',
       theme: ThemeData(
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          textSelectionTheme: Theme.of(context)
-              .textSelectionTheme
-              .copyWith(cursorColor: kPrimaryColor),
-          scaffoldBackgroundColor: Colors.white,
-          primarySwatch: Colors.pink,
-          sliderTheme: SliderThemeData(
-            activeTrackColor: kPrimaryColor,
-            thumbColor: Colors.white,
-            inactiveTrackColor: kGreyColor,
-          )),
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        textSelectionTheme: Theme.of(context)
+            .textSelectionTheme
+            .copyWith(cursorColor: kPrimaryColor),
+        scaffoldBackgroundColor: Colors.white,
+        primarySwatch: Colors.pink,
+        sliderTheme: SliderThemeData(
+          activeTrackColor: kPrimaryColor,
+          thumbColor: Colors.white,
+          inactiveTrackColor: kGreyColor,
+        ),
+      ),
       onGenerateRoute: BewpLife.generateRoute,
       initialRoute: LoginEmailPage.Route,
     );

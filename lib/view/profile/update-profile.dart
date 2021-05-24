@@ -27,7 +27,7 @@ class _UpdateProfileImagePageState extends State<UpdateProfileImagePage> {
         backgroundColor: kBabyPinkColor,
         body: SafeArea(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             child: Stack(
               children: [
                 Transform.translate(
@@ -39,7 +39,7 @@ class _UpdateProfileImagePageState extends State<UpdateProfileImagePage> {
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 100),
-                  height: getDeviceSize(context).height * 0.75,
+                  height: getDeviceSize(context).height * 0.8,
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
                   child: Column(
@@ -48,7 +48,7 @@ class _UpdateProfileImagePageState extends State<UpdateProfileImagePage> {
                     children: [
                       InkWell(
                         child: Container(
-                          height: getDeviceSize(context).height * 0.5,
+                          height: getDeviceSize(context).height * 0.55,
                           decoration: BoxDecoration(
                             color: Color(0xffededed),
                             borderRadius: BorderRadius.circular(20),
@@ -86,7 +86,8 @@ class _UpdateProfileImagePageState extends State<UpdateProfileImagePage> {
                           ),
                         ),
                         onPressed: () {
-                          Navigator.of(context).pushNamedAndRemoveUntil(HomePage.Route, (route) => false);
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              HomePage.Route, (route) => false);
                         },
                       ),
                     ],

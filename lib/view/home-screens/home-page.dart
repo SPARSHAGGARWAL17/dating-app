@@ -26,6 +26,8 @@ class _HomePageState extends State<HomePage>
   double distance = 0;
   bool left = false;
   bool value = false;
+  String currentGender = '';
+  String hairColour = '';
   PageController pageController = PageController(initialPage: 0);
   PanelController panelController = PanelController();
   // late AnimationController animationController;
@@ -67,155 +69,7 @@ class _HomePageState extends State<HomePage>
         topLeft: Radius.circular(20),
         topRight: Radius.circular(20),
       ),
-      panel: Material(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-        ),
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Container(
-                // padding: EdgeInsets.symmetric(horizontal: 10),
-                width: double.infinity,
-                height: 70,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.close),
-                      onPressed: () {
-                        panelController.close();
-                      },
-                    ),
-                    // Spacer(
-                    //     // flex: 5,
-                    //     ),
-                    Text(
-                      'FILTER',
-                      style: shadowTextStyle(
-                        weight: FontWeight.w500,
-                        size: 20,
-                      ),
-                    ),
-                    // Spacer(
-                    //     // flex: 4,
-                    //     ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          age = 0;
-                          distance = 0;
-                        });
-                      },
-                      child: Text(
-                        'Reset',
-                        style: buildTextStyle(color: Colors.black38),
-                      ),
-                    ),
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                  ),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      spreadRadius: 2,
-                      blurRadius: 3,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text('Looking For', style: shadowTextStyle()),
-                    Row(
-                      children: [
-                        buildButton(
-                          title: 'Male',
-                          check: false,
-                          onPressed: () {},
-                        ),
-                        SizedBox(width: 20),
-                        buildButton(
-                          title: 'Female',
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                    Text('Age', style: shadowTextStyle()),
-                    Slider(
-                      value: age,
-                      label: 'Age',
-                      onChanged: (value) {
-                        setState(() {
-                          age = value;
-                        });
-                      },
-                    ),
-                    Text('Distance', style: shadowTextStyle()),
-                    Slider(
-                      value: distance,
-                      label: 'Distance',
-                      onChanged: (value) {
-                        setState(() {
-                          distance = value;
-                        });
-                      },
-                    ),
-                    Text('Hair Colour', style: shadowTextStyle()),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        buildButton(title: 'Black', onPressed: () {}),
-                        buildButton(title: 'Blue', onPressed: () {}),
-                        buildButton(title: 'White', onPressed: () {}),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        buildButton(title: 'Brown', onPressed: () {}),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    CustomRaisedButton(
-                      child: Text(
-                        'APPLY',
-                        style: buildTextStyle(
-                          size: 20,
-                          color: kPrimaryColor,
-                          weight: FontWeight.bold,
-                        ),
-                      ),
-                      onPressed: () {
-                        panelController.close();
-                      },
-                      invert: true,
-                    )
-                  ],
-                ),
-              ).expand,
-            ],
-          ),
-          // height: ,
-          // decoration: BoxDecoration(
-          //   borderRadius:
-          // ),
-        ),
-      ),
+      panel: buildPanel(),
       body: Scaffold(
           backgroundColor: Colors.white,
           // appBar: AppBar(
@@ -361,9 +215,9 @@ class _HomePageState extends State<HomePage>
                                     },
                                     maxWidth: getDeviceSize(context).width,
                                     maxHeight:
-                                        getDeviceSize(context).height * 0.8,
+                                        getDeviceSize(context).height * 0.84,
                                     minWidth:
-                                        getDeviceSize(context).width * 0.75,
+                                        getDeviceSize(context).width * 0.84,
                                     minHeight:
                                         getDeviceSize(context).height * 0.6,
                                     cardBuilder: (context, index) {
@@ -455,6 +309,202 @@ class _HomePageState extends State<HomePage>
               ],
             ),
           )),
+    );
+  }
+
+  Material buildPanel() {
+    return Material(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      child: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              // padding: EdgeInsets.symmetric(horizontal: 10),
+              width: double.infinity,
+              height: 70,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () {
+                      panelController.close();
+                    },
+                  ),
+                  // Spacer(
+                  //     // flex: 5,
+                  //     ),
+                  Text(
+                    'FILTER',
+                    style: shadowTextStyle(
+                      weight: FontWeight.w500,
+                      size: 20,
+                    ),
+                  ),
+                  // Spacer(
+                  //     // flex: 4,
+                  //     ),
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        age = 0;
+                        distance = 0;
+                        currentGender = '';
+                        hairColour = '';
+                      });
+                    },
+                    child: Text(
+                      'Reset',
+                      style: buildTextStyle(color: Colors.black38),
+                    ),
+                  ),
+                ],
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+                color: Colors.white,
+                boxShadow: [
+                  // BoxShadow(
+                  //   color: Colors.grey,
+                  //   spreadRadius: 2,
+                  //   blurRadius: 3,
+                  // ),
+                ],
+              ),
+            ),
+            Divider(
+              thickness: 5,
+              height: 0,
+              color: kGreyColor,
+            ),
+            Container(
+              color: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text('Looking For', style: shadowTextStyle()),
+                  Row(
+                    children: [
+                      buildButton(
+                        title: 'Male',
+                        group: currentGender,
+                        onPressed: () {
+                          setState(() {
+                            currentGender = 'Male';
+                          });
+                        },
+                      ),
+                      SizedBox(width: 20),
+                      buildButton(
+                        title: 'Female',
+                        group: currentGender,
+                        onPressed: () {
+                          currentGender = 'Female';
+                          setState(() {});
+                        },
+                      ),
+                    ],
+                  ),
+                  Text('Age', style: shadowTextStyle()),
+                  Slider(
+                    value: age,
+                    label: 'Age',
+                    onChanged: (value) {
+                      setState(() {
+                        age = value;
+                      });
+                    },
+                  ),
+                  Text('Distance', style: shadowTextStyle()),
+                  Slider(
+                    value: distance,
+                    label: 'Distance',
+                    onChanged: (value) {
+                      setState(() {
+                        distance = value;
+                      });
+                    },
+                  ),
+                  Text('Hair Colour', style: shadowTextStyle()),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      buildButton(
+                          title: 'Black',
+                          group: hairColour,
+                          onPressed: () {
+                            setState(() {
+                              hairColour = 'Black';
+                            });
+                          }),
+                      buildButton(
+                          title: 'Blue',
+                          group: hairColour,
+                          onPressed: () {
+                            setState(() {
+                              hairColour = 'Blue';
+                            });
+                          }),
+                      buildButton(
+                          title: 'White',
+                          group: hairColour,
+                          onPressed: () {
+                            setState(() {
+                              hairColour = 'White';
+                            });
+                          }),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      buildButton(
+                          title: 'Brown',
+                          group: hairColour,
+                          onPressed: () {
+                            setState(() {
+                              hairColour = 'Brown';
+                            });
+                          }),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  CustomRaisedButton(
+                    child: Text(
+                      'APPLY',
+                      style: buildTextStyle(
+                        size: 20,
+                        color: kPrimaryColor,
+                        weight: FontWeight.bold,
+                      ),
+                    ),
+                    onPressed: () {
+                      panelController.close();
+                    },
+                    invert: true,
+                  )
+                ],
+              ),
+            ).expand,
+          ],
+        ),
+        // height: ,
+        // decoration: BoxDecoration(
+        //   borderRadius:
+        // ),
+      ),
     );
   }
 
@@ -625,18 +675,20 @@ class _HomePageState extends State<HomePage>
                     ),
                   ),
                   Positioned(
-                    bottom: 5,
-                    right: 0,
+                    bottom: 20,
+                    left: 0,
                     child: Container(
                       height: 105,
                       width: 331,
                       decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.95),
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(15),
-                              bottomRight: Radius.circular(0),
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(0))),
+                        color: Colors.white.withOpacity(0.6),
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(15),
+                          bottomLeft: Radius.circular(0),
+                          topRight: Radius.circular(15),
+                          topLeft: Radius.circular(0),
+                        ),
+                      ),
                       child: Column(
                         // mainAxisAlignment:
                         //    // MainAxisAlignment.spaceEvenly,
@@ -649,12 +701,18 @@ class _HomePageState extends State<HomePage>
                                 Text(
                                   '${match.name},', // TODO: add name
                                   style: buildTextStyle(
-                                      size: 26, color: Colors.grey.shade500),
+                                    size: 26,
+                                    color: Colors.black,
+                                    weight: FontWeight.bold,
+                                  ),
                                 ),
                                 Text(
                                   ' 23', // TODO: Add age
                                   style: buildTextStyle(
-                                      size: 26, color: Colors.grey.shade500),
+                                    size: 26,
+                                    color: Colors.black,
+                                    weight: FontWeight.bold,
+                                  ),
                                 ),
                               ],
                             ),
@@ -669,8 +727,9 @@ class _HomePageState extends State<HomePage>
                                     (matchCard.indexOf(match))
                                         .toString(), // TODO: add Breed name
                                 style: buildTextStyle(
-                                    size: 19,
-                                    color: Colors.black.withOpacity(0.55)),
+                                  size: 19,
+                                  color: Colors.black,
+                                ),
                               ),
                             ],
                           )
@@ -694,7 +753,7 @@ class _HomePageState extends State<HomePage>
                   //color: Color(0xFAFAFA)
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     InkWell(
                       onTap: () {
@@ -724,11 +783,12 @@ class _HomePageState extends State<HomePage>
                             color: Colors.white),
                         child: Icon(
                           Icons.close,
-                          color: Colors.grey[500],
+                          color: Colors.black,
                           size: 26,
                         ),
                       ),
                     ),
+                    SizedBox(width: 40),
                     InkWell(
                       onTap: () {
                         cardController.triggerRight();
@@ -752,18 +812,26 @@ class _HomePageState extends State<HomePage>
                         height: 60,
                         width: 60,
                         decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                  offset: Offset(4, 2),
-                                  color: Colors.grey.shade400,
-                                  blurRadius: 5,
-                                  spreadRadius: 3)
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.white,
+                              Color(0xffFF94A4),
                             ],
-                            borderRadius: BorderRadius.circular(100),
-                            color: Colors.white),
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                                offset: Offset(4, 2),
+                                color: Colors.grey.shade400,
+                                blurRadius: 5,
+                                spreadRadius: 3)
+                          ],
+                          borderRadius: BorderRadius.circular(100),
+                        ),
                         child: Icon(
                           Icons.favorite,
-                          color: kPrimaryColor,
+                          color: Colors.white,
                           size: 26,
                         ),
                       ),

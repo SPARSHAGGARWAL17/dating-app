@@ -1,4 +1,4 @@
-package com.example.bewp_life
+package com.bewplife.bewp_life
 
 import io.flutter.embedding.android.FlutterActivity
 

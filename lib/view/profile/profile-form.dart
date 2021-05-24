@@ -107,7 +107,7 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
                       // padding: EdgeInsets.symmetric(horizontal: 15),
                       child: DragAndDropGridView(
                         physics: NeverScrollableScrollPhysics(),
-                        itemCount: mediaList.length,
+                        itemCount: 6,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
                           childAspectRatio: 2 / 3,
@@ -183,26 +183,92 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
                         },
 
                         itemBuilder: (context, int position) {
-                          return Opacity(
-                            opacity: pos != null
-                                ? pos == position
-                                    ? 0.4
-                                    : 1
-                                : 1,
-                            child: new Container(
-                              height: 200,
-                              // margin: EdgeInsets.all(10),
-                              width: 150,
-                              // padding: EdgeInsets.fromLTRB(8.0, 5.0, 8.0, 5.0),
-                              decoration: new BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(new Radius.circular(5.0)),
-                              ),
-                              //因为本布局和删除图标同处于一个Stack内，设置marginTop和marginRight能让图标处于合适的位置
-                              //Because this layout and the delete_Icon are in the same Stack, setting marginTop and marginRight will make the icon in the proper position.
-                              child: new ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: buildImage(position),
+                          // if (position == mediaList.length) {
+                          //   return Container(
+                          //     height: 200,
+                          //     width: 150,
+                          //     decoration: BoxDecoration(
+                          //       borderRadius: BorderRadius.circular(5),
+                          //       color: kGreyColor,
+                          //     ),
+                          //     alignment: Alignment.center,
+                          //     child: Icon(
+                          //       Icons.add,
+                          //       color: Colors.black,
+                          //     ),
+                          //   );
+                          // }
+                          return InkWell(
+                            onTap: () {
+                              showDialog(
+                                useSafeArea: true,
+                                context: context,
+                                builder: (context) {
+                                  return Material(
+                                    type: MaterialType.transparency,
+                                    color: Colors.black12,
+                                    child: Container(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            height: 550,
+                                            width: 350,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              image: DecorationImage(
+                                                image: AssetImage(
+                                                    mediaList[position]
+                                                        .longURL),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            child: Opacity(
+                              opacity: pos != null
+                                  ? pos == position
+                                      ? 0.4
+                                      : 1
+                                  : 1,
+                              child: Stack(
+                                children: [
+                                  new Container(
+                                    height: 200,
+                                    // margin: EdgeInsets.all(10),
+                                    width: 150,
+                                    // padding: EdgeInsets.fromLTRB(8.0, 5.0, 8.0, 5.0),
+                                    decoration: new BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          new Radius.circular(5.0)),
+                                    ),
+                                    child: new ClipRRect(
+                                      borderRadius: BorderRadius.circular(5),
+                                      child: buildImage(position),
+                                    ),
+                                  ),
+                                  // CircleAvatar(
+                                  //   // radius: 10,
+                                  //   backgroundColor: Colors.white,
+                                  //   child: IconButton(
+                                  //     icon: Icon(Icons.close),
+                                  //     onPressed: () {
+                                  //       mediaList.removeAt(position);
+                                  //       setState(() {});
+                                  //     },
+                                  //   ),
+                                  // ),
+                                ],
                               ),
                             ),
                           );

@@ -30,7 +30,7 @@ class _SingleCardPageState extends State<SingleCardPage> {
         height: 100,
         color: Color(0xffF5F5F5),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             InkWell(
               onTap: () {
@@ -60,10 +60,13 @@ class _SingleCardPageState extends State<SingleCardPage> {
                     color: Colors.white),
                 child: Icon(
                   Icons.close,
-                  color: Colors.grey[500],
+                  color: Colors.black,
                   size: 26,
                 ),
               ),
+            ),
+            SizedBox(
+              width: 50,
             ),
             InkWell(
               onTap: () {
@@ -88,18 +91,26 @@ class _SingleCardPageState extends State<SingleCardPage> {
                 height: 60,
                 width: 60,
                 decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                          offset: Offset(4, 2),
-                          color: Colors.grey.shade400,
-                          blurRadius: 5,
-                          spreadRadius: 3)
+                  boxShadow: [
+                    BoxShadow(
+                        offset: Offset(4, 2),
+                        color: Colors.grey.shade400,
+                        blurRadius: 5,
+                        spreadRadius: 3)
+                  ],
+                  borderRadius: BorderRadius.circular(100),
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.white,
+                      Color(0xffFF94A4),
                     ],
-                    borderRadius: BorderRadius.circular(100),
-                    color: Colors.white),
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                ),
                 child: Icon(
                   Icons.favorite,
-                  color: kPrimaryColor,
+                  color: Colors.white,
                   size: 26,
                 ),
               ),

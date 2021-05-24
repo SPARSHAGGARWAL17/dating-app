@@ -187,20 +187,18 @@ class _RegisterAppState extends State<RegisterApp> {
                         Row(
                           children: [
                             buildButton(
-                              check: currentGender == 'Male',
+                              group: currentGender,
                               onPressed: () {
                                 currentGender = 'Male';
-                                setState(() {
-                                  
-                                });
+                                setState(() {});
                               },
                               title: 'Male',
                             ),
                             SizedBox(
                               width: 10,
                             ),
-                           buildButton(
-                              check: currentGender == 'Female',
+                            buildButton(
+                              group: currentGender,
                               onPressed: () {
                                 currentGender = 'Female';
                                 setState(() {});
@@ -294,7 +292,8 @@ class _RegisterAppState extends State<RegisterApp> {
                             ),
                           ),
                           onPressed: () {
-                            Navigator.of(context).pushNamed(UpdateProfileImagePage.Route);
+                            Navigator.of(context)
+                                .pushNamed(UpdateProfileImagePage.Route);
                           },
                         ),
                         Container(
