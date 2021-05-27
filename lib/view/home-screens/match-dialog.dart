@@ -64,7 +64,7 @@ class _MatchDialogPageState extends State<MatchDialogPage> {
                           topRight: Radius.circular(15)),
                       child: Image(
                         image: AssetImage(
-                          'assets/images/dogs/dog5.jpeg',
+                          'assets/images/profiles/profile1.jpg',
                         ), //TODO add matched Dog Profile Image
                         fit: BoxFit.cover,
                       ),
@@ -104,7 +104,7 @@ class _MatchDialogPageState extends State<MatchDialogPage> {
                       ),
                       child: Image(
                         image: AssetImage(
-                          'assets/images/dogs/dog4.jpeg',
+                          'assets/images/profiles/profile4.jpg',
                         ), //TODO add matched Dog Profile Image
                         fit: BoxFit.cover,
                       ),
@@ -136,7 +136,7 @@ class _MatchDialogPageState extends State<MatchDialogPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    'WOOF WOOF',
+                    'IT\'S A MATCH',
                     style: buildTextStyle(size: 52, weight: FontWeight.w900),
                   ),
                   buildButton(

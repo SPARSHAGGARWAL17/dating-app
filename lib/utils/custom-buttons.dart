@@ -4,6 +4,7 @@ ElevatedButton buildButton(
     {required String title, String group = '', required Function() onPressed}) {
   return ElevatedButton(
     style: ButtonStyle(
+      
       splashFactory: NoSplash.splashFactory,
       shape: MaterialStateProperty.all(
         RoundedRectangleBorder(

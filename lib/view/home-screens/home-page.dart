@@ -436,48 +436,48 @@ class _HomePageState extends State<HomePage>
                       });
                     },
                   ),
-                  Text('Hair Colour', style: shadowTextStyle()),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      buildButton(
-                          title: 'Black',
-                          group: hairColour,
-                          onPressed: () {
-                            setState(() {
-                              hairColour = 'Black';
-                            });
-                          }),
-                      buildButton(
-                          title: 'Blue',
-                          group: hairColour,
-                          onPressed: () {
-                            setState(() {
-                              hairColour = 'Blue';
-                            });
-                          }),
-                      buildButton(
-                          title: 'White',
-                          group: hairColour,
-                          onPressed: () {
-                            setState(() {
-                              hairColour = 'White';
-                            });
-                          }),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      buildButton(
-                          title: 'Brown',
-                          group: hairColour,
-                          onPressed: () {
-                            setState(() {
-                              hairColour = 'Brown';
-                            });
-                          }),
-                    ],
-                  ),
+                  // Text('Hair Colour', style: shadowTextStyle()),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     buildButton(
+                  //         title: 'Black',
+                  //         group: hairColour,
+                  //         onPressed: () {
+                  //           setState(() {
+                  //             hairColour = 'Black';
+                  //           });
+                  //         }),
+                  //     buildButton(
+                  //         title: 'Blue',
+                  //         group: hairColour,
+                  //         onPressed: () {
+                  //           setState(() {
+                  //             hairColour = 'Blue';
+                  //           });
+                  //         }),
+                  //     buildButton(
+                  //         title: 'White',
+                  //         group: hairColour,
+                  //         onPressed: () {
+                  //           setState(() {
+                  //             hairColour = 'White';
+                  //           });
+                  //         }),
+                  //   ],
+                  // ),
+                  // Row(
+                  //   children: [
+                  //     buildButton(
+                  //         title: 'Brown',
+                  //         group: hairColour,
+                  //         onPressed: () {
+                  //           setState(() {
+                  //             hairColour = 'Brown';
+                  //           });
+                  //         }),
+                  //   ],
+                  // ),
                   SizedBox(
                     height: 20,
                   ),
@@ -528,23 +528,24 @@ class _HomePageState extends State<HomePage>
   AnimatedContainer buildProfileDropdownWidget(
       [double? verticalMargin, int i = 1]) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 600),
+      duration: Duration(milliseconds: 400),
       margin:
           EdgeInsets.symmetric(horizontal: 10, vertical: verticalMargin ?? 5),
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(40),
+        borderRadius: BorderRadius.circular(30),
       ),
-      height: 50,
+      height: 40,
       width: 90,
       child: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             CircleAvatar(
-                radius: 26,
-                backgroundImage: AssetImage('assets/images/dogs/dog$i.jpeg')),
+                radius: 22,
+                backgroundImage:
+                    AssetImage('assets/images/profiles/profile$i.jpg')),
             if (verticalMargin == 10)
               AnimatedOpacity(
                 duration: Duration(milliseconds: 10),

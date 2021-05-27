@@ -147,7 +147,7 @@ class _SingleCardPageState extends State<SingleCardPage> {
                           height: getDeviceSize(context).height * 0.45,
                           width: getDeviceSize(context).width,
                           child: Image.asset(
-                            'assets/images/dogs/dog${i + 1}.jpeg',
+                            'assets/images/profiles/profile${i + 1}.jpg',
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -228,11 +228,11 @@ class _SingleCardPageState extends State<SingleCardPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             petQualities(
-                              title: '3\'5',
+                              title: '5\'5',
                               subTitle: 'Height',
                             ),
                             petQualities(
-                              title: '32 Kg',
+                              title: '64 Kg',
                               subTitle: 'Weight',
                             ),
                             petQualities(
@@ -278,7 +278,7 @@ class _SingleCardPageState extends State<SingleCardPage> {
                           height: 20,
                         ),
                         Text(
-                          'IS YOUR PET VACCINATED?',
+                          'ARE YOU VACCINATED?',
                           style: buildTextStyle(size: 18),
                         ),
                         SizedBox(

@@ -1,6 +1,4 @@
-
-
-class MatchCard  {
+class MatchCard {
   String imageUrl;
   String breedName;
   String name;
@@ -30,62 +28,62 @@ class MatchCard  {
 List<MatchCard> matchCard = [
   MatchCard(
     id: 1,
-    imageUrl: 'assets/images/dogs/dog1.jpeg',
-    breedName: 'Breed Name',
+    imageUrl: 'assets/images/profiles/profile1.jpg',
+    breedName: '',
     name: 'Malena Veronica',
   ),
   MatchCard(
     id: 2,
-    imageUrl: 'assets/images/dogs/dog2.jpeg',
-    breedName: 'Breed Name',
+    imageUrl: 'assets/images/profiles/profile2.jpg',
+    breedName: '',
     name: 'Malena Veronica',
   ),
   MatchCard(
     id: 3,
-    imageUrl: 'assets/images/dogs/dog3.jpeg',
-    breedName: 'Breed Name',
+    imageUrl: 'assets/images/profiles/profile3.jpg',
+    breedName: '',
     name: 'Malena Veronica',
   ),
   MatchCard(
     id: 4,
-    imageUrl: 'assets/images/dogs/dog4.jpeg',
-    breedName: 'Breed Name',
+    imageUrl: 'assets/images/profiles/profile4.jpg',
+    breedName: '',
     name: 'Malena Veronica',
   ),
   MatchCard(
     id: 5,
-    imageUrl: 'assets/images/dogs/dog5.jpeg',
-    breedName: 'Breed Name',
+    imageUrl: 'assets/images/profiles/profile5.jpg',
+    breedName: '',
     name: 'Malena Veronica',
   ),
   MatchCard(
     id: 6,
-    imageUrl: 'assets/images/dogs/dog6.jpeg',
-    breedName: 'Breed Name',
+    imageUrl: 'assets/images/profiles/profile6.jpg',
+    breedName: '',
     name: 'Malena Veronica',
   ),
   MatchCard(
     id: 7,
-    imageUrl: 'assets/images/dogs/dog7.jpeg',
-    breedName: 'Breed Name',
+    imageUrl: 'assets/images/profiles/profile7.jpg',
+    breedName: '',
     name: 'Malena Veronica',
   ),
   MatchCard(
     id: 8,
-    imageUrl: 'assets/images/dogs/dog1.jpeg',
-    breedName: 'Breed Name',
+    imageUrl: 'assets/images/profiles/profile1.jpg',
+    breedName: '',
     name: 'Malena Veronica',
   ),
   MatchCard(
     id: 9,
-    imageUrl: 'assets/images/dogs/dog2.jpeg',
-    breedName: 'Breed Name',
+    imageUrl: 'assets/images/profiles/profile2.jpg',
+    breedName: '',
     name: 'Malena Veronica',
   ),
   MatchCard(
     id: 10,
-    imageUrl: 'assets/images/dogs/dog3.jpeg',
-    breedName: 'Breed Name',
+    imageUrl: 'assets/images/profiles/profile3.jpg',
+    breedName: '',
     name: 'Malena Veronica',
   ),
 ];

@@ -36,8 +36,8 @@ class ProfilePage extends StatelessWidget {
                           ),
                           child: CircleAvatar(
                             radius: 80,
-                            backgroundImage:
-                                AssetImage('assets/images/dogs/dog1.jpeg'),
+                            backgroundImage: AssetImage(
+                                'assets/images/profiles/profile1.jpg'),
                           ),
                         ),
                         Positioned(
@@ -73,13 +73,13 @@ class ProfilePage extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      'WOOF WOOF',
-                      style: buildTextStyle(
-                        size: 26,
-                        weight: FontWeight.w600,
-                      ),
-                    ),
+                    // Text(
+                    //   'WOOF WOOF',
+                    //   style: buildTextStyle(
+                    //     size: 18,
+                    //     weight: FontWeight.w600,
+                    //   ),
+                    // ),
                     SizedBox(
                       height: 15,
                     ),
@@ -168,13 +168,13 @@ class _ProfileButton {
 }
 
 List<_ProfileButton> tiles = [
-  _ProfileButton(
-    onPressed: (context) {
-      Navigator.of(context).pushNamed(ProfileFormPage.Route);
-    },
-    title: 'Pet Profile',
-    icon: 'assets/images/profile.png',
-  ),
+  // _ProfileButton(
+  //   onPressed: (context) {
+  //     Navigator.of(context).pushNamed(ProfileFormPage.Route);
+  //   },
+  //   title: 'Pet Profile',
+  //   icon: 'assets/images/profile.png',
+  // ),
   _ProfileButton(
     onPressed: (context) {
       Navigator.of(context).pushNamed(RegisterApp.Route);
