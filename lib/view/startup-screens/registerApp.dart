@@ -63,7 +63,7 @@ class _RegisterAppState extends State<RegisterApp> {
                           )),
                       Transform.translate(
                           offset: Offset(20, -50),
-                          child: Image.asset('assets/images/kitty.png')),
+                          child: Image.asset('assets/images/girl.png')),
                     ],
                   ).expand,
                   Stack(
