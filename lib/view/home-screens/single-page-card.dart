@@ -1,4 +1,4 @@
-import 'package:bewp_life/const.dart';
+import '/const.dart';
 import 'package:flutter/material.dart';
 
 class SingleCardPage extends StatefulWidget {

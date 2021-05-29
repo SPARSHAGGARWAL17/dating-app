@@ -1,13 +1,13 @@
 import 'dart:io';
 import 'dart:async';
 
-import 'package:bewp_life/const.dart';
-import 'package:bewp_life/model/cards.dart';
-import 'package:bewp_life/model/common/common-model.dart';
-import 'package:bewp_life/model/media.dart';
-import 'package:bewp_life/utils/custom-buttons.dart';
-import 'package:bewp_life/view/profile/profile-popup.dart';
-import 'package:bewp_life/view/startup-screens/login-email.dart';
+import '/const.dart';
+import '/model/cards.dart';
+import '/model/common/common-model.dart';
+import '/model/media.dart';
+import '/utils/custom-buttons.dart';
+import '/view/profile/profile-popup.dart';
+import '/view/startup-screens/login-email.dart';
 import 'package:drag_and_drop_gridview/devdrag.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

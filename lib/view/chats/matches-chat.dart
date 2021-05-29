@@ -1,5 +1,5 @@
-import 'package:bewp_life/model/matches.dart';
-import 'package:bewp_life/view/chats/chat-page.dart';
+import '/model/matches.dart';
+import '/view/chats/chat-page.dart';
 import 'package:flutter/rendering.dart';
 
 import '../../export.dart';

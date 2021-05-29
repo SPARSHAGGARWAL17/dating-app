@@ -1,5 +1,5 @@
-import 'package:bewp_life/view/profile/update-profile.dart';
-import 'package:bewp_life/view/startup-screens/number-verify.dart';
+import '/view/profile/update-profile.dart';
+import '/view/startup-screens/number-verify.dart';
 import 'package:intl/intl.dart';
 
 import '../../export.dart';
@@ -63,7 +63,7 @@ class _RegisterAppState extends State<RegisterApp> {
                           )),
                       Transform.translate(
                           offset: Offset(20, -50),
-                          child: Image.asset('assets/images/kitty.png')),
+                          child: Image.asset('assets/images/girl.png')),
                     ],
                   ).expand,
                   Stack(

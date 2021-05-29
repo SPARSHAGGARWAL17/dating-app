@@ -1,6 +1,6 @@
-import 'package:bewp_life/view/profile/profile-form.dart';
 import 'package:flutter/material.dart';
-import 'package:bewp_life/export.dart';
+import '/view/profile/profile-form.dart';
+import '/export.dart';
 
 class ProfilePage extends StatelessWidget {
   @override

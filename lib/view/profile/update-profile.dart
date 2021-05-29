@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:bewp_life/const.dart';
-import 'package:bewp_life/view/home-screens/home-page.dart';
-import 'package:bewp_life/view/startup-screens/login-email.dart';
+import '/const.dart';
+import '/view/home-screens/home-page.dart';
+import '/view/startup-screens/login-email.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 

@@ -1,4 +1,4 @@
-import 'package:bewp_life/export.dart';
+import '/export.dart';
 
 class Chat {
   String message;

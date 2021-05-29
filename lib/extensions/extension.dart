@@ -1,4 +1,4 @@
-import 'package:bewp_life/export.dart';
+import '/export.dart';
 
 extension Expansion on Widget {
   Expanded get expand => Expanded(

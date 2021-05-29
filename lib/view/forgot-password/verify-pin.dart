@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:bewp_life/const.dart';
-import 'package:bewp_life/view/startup-screens/login-email.dart';
+import '/const.dart';
+import '/view/startup-screens/login-email.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 

@@ -1,12 +1,12 @@
 // @dart=2.9
 
-import 'package:bewp_life/export.dart';
-import 'package:bewp_life/routes.dart';
-import 'package:bewp_life/view/chats/chat-page.dart';
-import 'package:bewp_life/view/chats/matches-chat.dart';
-import 'package:bewp_life/view/profile/profile-form.dart';
-import 'package:bewp_life/view/home-screens/match-dialog.dart';
-import 'package:bewp_life/view/profile/update-profile.dart';
+import '/export.dart';
+import '/routes.dart';
+import '/view/chats/chat-page.dart';
+import '/view/chats/matches-chat.dart';
+import '/view/profile/profile-form.dart';
+import '/view/home-screens/match-dialog.dart';
+import '/view/profile/update-profile.dart';
 import 'package:flutter/material.dart';
 
 void main() {

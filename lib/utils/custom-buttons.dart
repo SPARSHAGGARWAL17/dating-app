@@ -1,4 +1,4 @@
-import 'package:bewp_life/export.dart';
+import '/export.dart';
 
 ElevatedButton buildButton(
     {required String title, String group = '', required Function() onPressed}) {

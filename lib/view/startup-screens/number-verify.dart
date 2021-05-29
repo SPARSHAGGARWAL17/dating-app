@@ -1,4 +1,4 @@
-import 'package:bewp_life/view/startup-screens/otp-verify.dart';
+import '/view/startup-screens/otp-verify.dart';
 
 import '../../export.dart';
 

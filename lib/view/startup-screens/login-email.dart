@@ -1,4 +1,4 @@
-import 'package:bewp_life/export.dart';
+import '/export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -69,7 +69,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                       child: Transform.translate(
                         offset: Offset(170, 20),
                         child: Image.asset(
-                          'assets/images/dog2.png',
+                          'assets/images/girl.png',
                         ),
                       ),
                     ),

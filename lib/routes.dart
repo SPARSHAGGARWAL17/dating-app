@@ -1,12 +1,12 @@
-import 'package:bewp_life/model/matches.dart';
-import 'package:bewp_life/view/chats/chat-page.dart';
-import 'package:bewp_life/view/chats/matches-chat.dart';
-import 'package:bewp_life/view/profile/profile-form.dart';
-import 'package:bewp_life/view/home-screens/match-dialog.dart';
-import 'package:bewp_life/view/profile/update-profile.dart';
-import 'package:bewp_life/view/startup-screens/new-password.dart';
-import 'package:bewp_life/view/startup-screens/number-verify.dart';
-import 'package:bewp_life/view/startup-screens/otp-verify.dart';
+import '/model/matches.dart';
+import '/view/chats/chat-page.dart';
+import '/view/chats/matches-chat.dart';
+import '/view/profile/profile-form.dart';
+import '/view/home-screens/match-dialog.dart';
+import '/view/profile/update-profile.dart';
+import '/view/startup-screens/new-password.dart';
+import '/view/startup-screens/number-verify.dart';
+import '/view/startup-screens/otp-verify.dart';
 import 'package:flutter/material.dart';
 import 'export.dart';
 

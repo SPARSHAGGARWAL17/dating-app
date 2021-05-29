@@ -1,6 +1,6 @@
-import 'package:bewp_life/model/chat.dart';
-import 'package:bewp_life/model/matches.dart';
-import 'package:bewp_life/view/chats/matches-chat.dart';
+import '/model/chat.dart';
+import '/model/matches.dart';
+import '/view/chats/matches-chat.dart';
 
 import '../../export.dart';
 

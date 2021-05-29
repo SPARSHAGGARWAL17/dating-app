@@ -1,5 +1,5 @@
-import 'package:bewp_life/const.dart';
-import 'package:bewp_life/view/startup-screens/login-email.dart';
+import '/const.dart';
+import '/view/startup-screens/login-email.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
