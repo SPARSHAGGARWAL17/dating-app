@@ -67,7 +67,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                       // right: 0,
                       // bottom: 0,
                       child: Transform.translate(
-                        offset: Offset(170, 20),
+                        offset: Offset(130, 20),
                         child: Image.asset(
                           'assets/images/girl.png',
                         ),
